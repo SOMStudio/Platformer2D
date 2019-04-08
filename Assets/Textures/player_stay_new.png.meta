@@ -1,0 +1,140 @@
+fileFormatVersion: 2
+guid: 92fba7a4f7a5b114f82af00541676ab1
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: player_stay_new_4
+    21300002: player_stay_new_0
+    21300004: player_stay_new_1
+    21300006: player_stay_new_2
+    21300008: player_stay_new_3
+    21300010: player_stay_new_5
+    21300012: player_stay_new_6
+    21300014: player_stay_new_7
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: player_stay_new_4
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 13
+        width: 56
+        height: 172
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: player_stay_new_0
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 189
+        width: 89
+        height: 170
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: player_stay_new_1
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 189
+        width: 79
+        height: 170
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: player_stay_new_2
+      rect:
+        serializedVersion: 2
+        x: 206
+        y: 189
+        width: 91
+        height: 170
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: player_stay_new_3
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 13
+        width: 59
+        height: 172
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: player_stay_new_5
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 13
+        width: 64
+        height: 172
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: player_stay_new_6
+      rect:
+        serializedVersion: 2
+        x: 380
+        y: 189
+        width: 96
+        height: 170
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: player_stay_new_7
+      rect:
+        serializedVersion: 2
+        x: 377
+        y: 13
+        width: 95
+        height: 172
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
