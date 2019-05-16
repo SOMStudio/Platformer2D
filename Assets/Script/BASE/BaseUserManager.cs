@@ -1,38 +1,29 @@
 using UnityEngine;
-using System.Collections;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.IO;
 
 [AddComponentMenu("Base/User Manager")]
 
-[SerializeField]
-class PlayerData
-{
-	public int helth;
-	public int experience;
-}
-
 public class BaseUserManager : MonoBehaviour
 {
-	// gameplay specific data
-	// we keep these private and provide methods to modify them instead, just to prevent any
-	// accidental corruption or invalid data coming in
-	private int score;
-	private int highScore;
-	private int level;
-	private int health;
-	private bool isFinished;
+	protected int score;
+	protected int highScore;
+	protected int level;
+	protected int health;
+
+	protected bool isFinished;
 	
-	// this is the display name of the player
-	public string playerName ="Anon";
-		
+	[SerializeField]
+	protected string playerName ="Anonim";
+
+	// main Logic
 	public virtual void GetDefaultData()
 	{
-		playerName="Anon";
+		playerName="Anonim";
+
 		score=0;
 		level=1;
 		health=3;
 		highScore=0;
+
 		isFinished=false;
 	}
 	
@@ -59,6 +50,11 @@ public class BaseUserManager : MonoBehaviour
 	public int GetHighScore()
 	{
 		return highScore;
+	}
+
+	public void SetHighScore(int val)
+	{
+		highScore = val;
 	}
 		
 	public int GetScore()
@@ -100,7 +96,9 @@ public class BaseUserManager : MonoBehaviour
 	{
 		health=num;
 	}
-	
+
+	//===============================
+
 	public bool GetIsFinished()
 	{
 		return isFinished;
@@ -109,41 +107,5 @@ public class BaseUserManager : MonoBehaviour
 	public void SetIsFinished(bool aVal)
 	{
 		isFinished=aVal;
-	}
-
-	//=for save data=====================
-
-	/// <summary>
-	/// save player data in file with cripting, not use for Web-application (we can't write file)
-	/// </summary>
-	public void SavePrivateDataPlayer()
-	{
-		BinaryFormatter bf = new BinaryFormatter();
-		FileStream file = File.Create(Application.persistentDataPath + "/playerinfo.dat");
-		
-		PlayerData data = new PlayerData();
-		data.helth = health;
-		data.experience = score;
-		
-		bf.Serialize(file, data);
-		file.Close();
-	}
-	
-	/// <summary>
-	/// restore player data from cripting file.
-	/// </summary>
-	public void LoadPrivateDataPlayer()
-	{
-		if (File.Exists(Application.persistentDataPath + "/playerinfo.dat"))
-		{
-			BinaryFormatter bf = new BinaryFormatter();
-			FileStream file = File.Open(Application.persistentDataPath + "/playerinfo.dat", FileMode.Open);
-			
-			PlayerData data = (PlayerData)bf.Deserialize(file);
-			health = data.helth;
-			score = data.experience;
-			
-			file.Close();
-		}
 	}
 }

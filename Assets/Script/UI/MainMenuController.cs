@@ -8,38 +8,60 @@ using UnityEditor;
 
 public class MainMenuController : MonoBehaviour
 {
-	public int whichMenu= 0;
+	[SerializeField]
+	private int whichMenu= 0;
+
+	[Header("Game Settings")]
+	[SerializeField]
+	private GUISkin menuSkin;
 	
-	public GUISkin menuSkin;
+	[SerializeField]
+	private string gameDisplayName= "- DEFAULT GAME NAME -";
+	[SerializeField]
+	private string gamePrefsName= "DefaultGame";
 	
-	private float buttonPosX;
-	private float buttonPosY;
+	[SerializeField]
+	private float default_width= 720;
+	[SerializeField]
+	private float default_height= 480;
 	
-	public string gameDisplayName= "- DEFAULT GAME NAME -";
-	public string gamePrefsName= "DefaultGame";
+	[SerializeField]
+	private float audioSFXSliderValue = 1;
+	[SerializeField]
+	private float audioMusicSliderValue = 1;
 	
-	public string singleGameStartScene;
-	public string coopGameStartScene;
-	
-	public float default_width= 720;
-	public float default_height= 480;
-	
-	public float audioSFXSliderValue;
-	public float audioMusicSliderValue;
-	
-	public float graphicsSliderValue;
+	[SerializeField]
+	private float graphicsSliderValue = 6;
 	private int detailLevels= 6;
+
+	[Header("Def Scene")]
+	[SerializeField]
+	private string singleGameStartScene;
+	[SerializeField]
+	private string coopGameStartScene;
+
+	[Header("Level Manager")]
+	[SerializeField]
+	private bool useSceneManagerToStartgame;
+	[SerializeField]
+	private GameObject sceneManagerPrefab;
 	
-	public GameObject sceneManagerPrefab;
-	
-	public string[] gameLevels;
+	[SerializeField]
+	private string[] gameLevels;
 	
 	private GameObject sceneManagerGO;
 	private SceneManager sceneManager;
-	
-	public bool useSceneManagerToStartgame;
-	public bool isLoading;
-	
+
+	[SerializeField]
+	private bool isLoading;
+
+	[SerializeField]
+	private BaseSoundController soundManager;
+
+	[SerializeField]
+	private BaseMusicController musicManager;
+
+	// main event
 	void Start()
 	{
 		// set up default options, if they have been saved out to prefs already
@@ -69,23 +91,30 @@ public class MainMenuController : MonoBehaviour
 
 		// set the quality setting
 		QualitySettings.SetQualityLevel( (int)graphicsSliderValue, true);
-		
-		// check for an instance of the scene manager, to deal with loading
-		sceneManagerGO = GameObject.Find ( "SceneManager" );
-		
-		// if no instance exists already, we instantiate a prefab containing an empty gameObject with the SceneManager script attached
-		if( sceneManagerGO == null )
-		{
-			// instantiate a scene manager object into the scene
-			sceneManagerGO = (GameObject) Instantiate( sceneManagerPrefab );
+
+		// scene manager
+		sceneManagerGO = GameObject.Find ("SceneManager");
+		if (sceneManagerGO == null) {
+			sceneManagerGO = (GameObject)Instantiate (sceneManagerPrefab);
 			sceneManagerGO.name = sceneManagerPrefab.name;
 		}
-		
 		// grab a reference to the scene manager script, so we can access it later
-		sceneManager = sceneManagerGO.GetComponent<SceneManager>();
-		
+		sceneManager = sceneManagerGO.GetComponent<SceneManager> ();
 		// now tell scene manager about the levels we have in this game
-		sceneManager.levelNames = gameLevels;
+		if (gameLevels.Length > 0) {
+			sceneManager.levelNames = gameLevels;
+		}
+
+		// sound manager
+		if (soundManager != null) {
+			soundManager = BaseSoundController.Instance;
+		}
+
+		// music manager
+		if (musicManager != null) {
+			musicManager = BaseMusicController.Instance;
+		}
+
 	}
 	
 	void OnGUI()
@@ -96,10 +125,7 @@ public class MainMenuController : MonoBehaviour
 				
 		// set the GUI skin to use our custom menu skin
 		GUI.skin= menuSkin;
-		
-		buttonPosX= 5;
-		buttonPosY= 5;
-		
+
 		switch(whichMenu)
 		{
 		case 0:	
@@ -214,14 +240,34 @@ public class MainMenuController : MonoBehaviour
 			GUI.BeginGroup (new Rect (default_width / 2 - 150, default_height / 2 - 250, 500, 500));
 
 			// Are you sure you want to exit?
-			GUI.Label(new Rect( 0, 50, 300, 50 ), "AUDIO OPTIONS", "textarea");
+			GUI.Label (new Rect (0, 50, 300, 50), "AUDIO OPTIONS", "textarea");
 			
-			GUI.Label(new Rect(0, 170, 300, 20), "SFX volume:");
-			audioSFXSliderValue = GUI.HorizontalSlider (new Rect( 0, 200, 300, 50 ), audioSFXSliderValue, 0.0f, 1f);
+			GUI.Label (new Rect (0, 170, 300, 20), "SFX volume:");
+			float audioSFXSliderValue_new = GUI.HorizontalSlider (new Rect (0, 200, 300, 50), audioSFXSliderValue, 0.0f, 1f);
 
-			GUI.Label(new Rect(0, 270, 300, 20), "Music volume:");
-			audioMusicSliderValue = GUI.HorizontalSlider (new Rect( 0, 300, 300, 50 ), audioMusicSliderValue, 0.0f, 1f);
-			
+			GUI.Label (new Rect (0, 270, 300, 20), "Music volume:");
+			float audioMusicSliderValue_new = GUI.HorizontalSlider (new Rect (0, 300, 300, 50), audioMusicSliderValue, 0.0f, 1f);
+
+			if (audioSFXSliderValue_new != audioSFXSliderValue) {
+				audioSFXSliderValue = audioSFXSliderValue_new;
+
+				if (soundManager != null) {
+					SaveOptionsPrefs();
+
+					soundManager.UpdateVolume ();
+				}
+			}
+
+			if (audioMusicSliderValue_new != audioMusicSliderValue) {
+				audioMusicSliderValue = audioMusicSliderValue_new;
+
+				if (musicManager != null) {
+					SaveOptionsPrefs();
+
+					musicManager.UpdateVolume ();
+				}
+			}
+
 			if(GUI.Button(new Rect(0, 400, 300, 40 ),"BACK TO MAIN MENU"))
 			{
 				SaveOptionsPrefs();
@@ -253,7 +299,8 @@ public class MainMenuController : MonoBehaviour
 		
 		} // <- end switch	
 	}
-	
+
+	// main logic
 	void LoadLevel( string whichLevel )
 	{
 		// tell the sceneManager object to deal with loading the level

@@ -144,7 +144,7 @@ public class GameController_Plt2D : BaseGameController
 		}
 
 		// grab a reference to the main player's data manager so we can update its values later on (scoring, lives etc.)
-		mainPlayerDataManager1= playerGO1.GetComponent<BasePlayerManager>().DataManager;
+		mainPlayerDataManager1= playerGO1.GetComponent<BasePlayerManager>().GetDataManager();
 
 		//create platforms
 		Invoke ("StartLevelFirst", 2);

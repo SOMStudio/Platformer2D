@@ -7,7 +7,7 @@ public class AutomaticDestroyObject : MonoBehaviour
 	
 	void Start () {
 		// the function destroyGO() will be called in timeBeforeObjectDestroys seconds
-		Invoke("destroyGO",timeBeforeObjectDestroys);
+		Invoke("destroyGO", timeBeforeObjectDestroys);
 	}
 	
 	void destroyGO () {

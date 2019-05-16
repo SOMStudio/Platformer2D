@@ -39,7 +39,7 @@ public class Player_Plt2D : BaseLeftRightPlatformer
 			myPlayerManager= myGO.GetComponent<BasePlayerManager>();
 		
 		// set up the data for our player
-		myDataManager= myPlayerManager.DataManager;
+		myDataManager= myPlayerManager.GetDataManager();
 		myDataManager.SetName("Player1");
 		myDataManager.SetHealth(3);
 		
@@ -49,7 +49,7 @@ public class Player_Plt2D : BaseLeftRightPlatformer
 		GameController_Plt2D.Instance.UpdateLivesP1(myDataManager.GetHealth());
 	}
 
-	public override void UpdateCharacter ()
+	protected override void UpdateCharacter ()
 	{
 		// don't do anything until Init() has been run
 		if(!didInit)
@@ -68,7 +68,7 @@ public class Player_Plt2D : BaseLeftRightPlatformer
 		}
 	}
 
-	public override void GetInput()
+	protected override void GetInput()
 	{
 		if (isFinished || isRespawning)
 		{

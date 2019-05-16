@@ -5,59 +5,80 @@ using System.Collections;
 
 public class BaseLeftRightPlatformer : ExtendedCustomMonoBehaviour2D
 {
-	private float moveXAmount;
-	public float moveXSpeed = 20f;
-	public float jumpForce = 300f;
-	
-	[System.NonSerialized]
-	public Keyboard_Input default_input;
+	[Header("Move settings")]
+	[SerializeField]
+	protected float moveXSpeed = 20f;
+	[SerializeField]
+	protected float jumpForce = 300f;
 
-	public float horizontal_input = 0f;
-	public float vertical_input = 0f;
+	[Header("Technic value")]
+	[SerializeField]
+	protected float horizontal_input = 0f;
+	[SerializeField]
+	protected float vertical_input = 0f;
+	[SerializeField]
+	protected bool facingRight = true;
+	[SerializeField]
+	protected bool clickJump = false;
+	[SerializeField]
+	protected bool grounded = false;
 
-	public bool facingRight = true;
-	public bool clickJump = false;
-	public bool grounded = false;
+	[Header("Technic referance")]
+	[SerializeField]
+	protected Transform groundPoint;
+	protected Keyboard_Input default_input;
+	protected Animator myAnimator;
 
-	public Transform groundPoint;
-
-	private Animator anim;
-	
-	public void Start()
+	// main event
+	void Update ()
 	{
-		// we are overriding Start() so as not to call Init, as we want the game controller to do this in this game.
-		didInit=false;
-		
-		Init();
+		UpdateCharacter ();
 	}
-	
-	public virtual void Init ()
+
+	void FixedUpdate()
+	{
+		FixedUpdateCharacter ();
+	}
+
+	// main logiv
+
+	/// <summary>
+	/// Init main instance (myTransform, myGO, myBody, myAnimator, KeybordInput), def. in Start.
+	/// </summary>
+	public override void Init ()
 	{	
+		// base init
+		base.Init ();
+
+		didInit=false;
+
 		// cache refs to our transform and gameObject
-		myTransform= transform;
-		myGO= gameObject;
-		myBody= GetComponent<Rigidbody2D>();
-		anim= GetComponent<Animator>();
+		if (!myAnimator) {
+			myAnimator = GetComponent<Animator> ();
+		}
 
 		// add default keyboard input
-		default_input= myGO.AddComponent<Keyboard_Input>();
+		if (!default_input) {
+			default_input = myGO.AddComponent<Keyboard_Input> ();
+		}
 		
 		// set a flag so that our Update function knows when we are OK to use
 		didInit=true;
 	}
-	
-	public void GameStart ()
+
+	/// <summary>
+	/// Games the start (canControl = true).
+	/// </summary>
+	protected virtual void GameStart ()
 	{
 		// we are good to go, so let's get moving!
 		canControl=true;
 	}
 
-	public void Update ()
-	{
-		UpdateCharacter ();
-	}
-	
-	public virtual void UpdateCharacter ()
+	/// <summary>
+	/// Updates the character input Control, def. invoke in Update.
+	/// </summary>
+	protected virtual void UpdateCharacter ()
 	{
 		// don't do anything until Init() has been run
 		if(!didInit)
@@ -70,7 +91,10 @@ public class BaseLeftRightPlatformer : ExtendedCustomMonoBehaviour2D
 		GetInput();
 	}
 
-	public virtual void GetInput ()
+	/// <summary>
+	/// Gets the input (left, right, jump), def. invoke in UpdateCharacter.
+	/// </summary>
+	protected virtual void GetInput ()
 	{
 		// this is just a 'default' function that (if needs be) should be overridden in the glue code
 		horizontal_input= default_input.GetHorizontal();
@@ -82,12 +106,10 @@ public class BaseLeftRightPlatformer : ExtendedCustomMonoBehaviour2D
 		}
 	}
 
-	public void FixedUpdate()
-	{
-		FixedUpdateCharacter ();
-	}
-
-	public virtual void FixedUpdateCharacter ()
+	/// <summary>
+	/// Fixeds the update character phisic Control (velocity, AddForce).
+	/// </summary>
+	protected virtual void FixedUpdateCharacter ()
 	{
 		// don't do anything until Init() has been run
 		if(!didInit)
@@ -99,8 +121,9 @@ public class BaseLeftRightPlatformer : ExtendedCustomMonoBehaviour2D
 
 		grounded = Physics2D.Linecast (transform.position, groundPoint.position, 1 << LayerMask.NameToLayer ("Ground"));
 
-		anim.SetBool ("grounded", grounded);
-		anim.SetFloat("runSpeed", Mathf.Abs(horizontal_input));
+		// animation
+		myAnimator.SetBool ("grounded", grounded);
+		myAnimator.SetFloat ("runSpeed", Mathf.Abs(horizontal_input));
 
 		if (default_input.Right && !facingRight)
 			Flip ();
@@ -118,10 +141,13 @@ public class BaseLeftRightPlatformer : ExtendedCustomMonoBehaviour2D
 		}
 	}
 
-	void Flip()
+	/// <summary>
+	/// Flip this instance.
+	/// </summary>
+	protected virtual void Flip()
 	{
 		facingRight = !facingRight;
-		Vector3 theScale = transform.localScale;
+		Vector3 theScale = myTransform.localScale;
 		theScale.x *= -1;
 		transform.localScale = theScale;
 	}

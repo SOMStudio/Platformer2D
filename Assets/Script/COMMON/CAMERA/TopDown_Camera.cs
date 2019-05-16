@@ -11,7 +11,6 @@ public class TopDown_Camera : MonoBehaviour {
 	public float minHeight;
 	
 	private Transform myTransform;
-	private Vector3 currentVelocity;
 	
 	void Start ()
 	{
@@ -23,10 +22,9 @@ public class TopDown_Camera : MonoBehaviour {
 		followTarget= aTransform;	
 	}
 	
-	void Update ()
+	void LateUpdate ()
 	{
-		if (followTarget != null) {
-			myTransform.position = Vector3.Lerp (myTransform.position, followTarget.position + targetOffset, moveSpeed * Time.deltaTime);
-		}
+		if(followTarget!=null)
+			myTransform.position= Vector3.Lerp( myTransform.position, followTarget.position + targetOffset, moveSpeed * Time.deltaTime );
 	}
 }
