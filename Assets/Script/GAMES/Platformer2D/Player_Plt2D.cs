@@ -1,24 +1,28 @@
 using UnityEngine;
-using System.Collections;
-
-[AddComponentMenu("Sample Game Glue Code/My/Simple Player Controller")]
 
 public class Player_Plt2D : BaseLeftRightPlatformer
 {
-	public Transform cameraOffsetPoint;
-	public Vector2 cameraOffsetValue;
+	[SerializeField]
+	private Transform cameraOffsetPoint;
+	[SerializeField]
+	private Vector2 cameraOffsetValue;
 	private float myVelocityYNorm = 0f;
 
-	public BasePlayerManager myPlayerManager;
-	public BaseUserManager myDataManager;
+	[SerializeField]
+	private BasePlayerManager myPlayerManager;
+	[SerializeField]
+	private BaseUserManager myDataManager;
 
 	private bool isInvulnerable;
 	private bool isRespawning;
 
-	public bool godMode =false;
+	[SerializeField]
+	private bool godMode =false;
 	
-	public bool isFinished;
+	[SerializeField]
+	private bool isFinished;
 
+	// main logic
 	public override void Init ()
 	{
 		base.Init ();
@@ -79,12 +83,6 @@ public class Player_Plt2D : BaseLeftRightPlatformer
 
 		// get main controll (hor, ver move and jump)
 		base.GetInput ();
-	}
-
-	public void GameStart()
-	{
-		// this function is called by the game controller to tell us when we can start moving
-		canControl=true;
 	}
 
 	public void GameEnd()

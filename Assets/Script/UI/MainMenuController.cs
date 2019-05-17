@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -42,15 +41,12 @@ public class MainMenuController : MonoBehaviour
 
 	[Header("Level Manager")]
 	[SerializeField]
-	private bool useSceneManagerToStartgame;
-	[SerializeField]
-	private GameObject sceneManagerPrefab;
+	private bool useLevelManagerToStartGame;
 	
 	[SerializeField]
 	private string[] gameLevels;
-	
-	private GameObject sceneManagerGO;
-	private SceneManager sceneManager;
+	[SerializeField]
+	private LevelManager levelManager;
 
 	[SerializeField]
 	private bool isLoading;
@@ -70,11 +66,9 @@ public class MainMenuController : MonoBehaviour
 			audioSFXSliderValue= PlayerPrefs.GetFloat(gamePrefsName+"_SFXVol");
 		} else {
 			// if we are missing an SFXVol key, we won't got audio defaults set up so let's do that now
-			audioSFXSliderValue= 1;
-			audioMusicSliderValue= 1;
 			string[] names = QualitySettings.names;
-			detailLevels= names.Length;
-			graphicsSliderValue= detailLevels;
+			detailLevels = names.Length;
+			graphicsSliderValue = detailLevels;
 			// save defaults
 			SaveOptionsPrefs();
 		}
@@ -92,27 +86,25 @@ public class MainMenuController : MonoBehaviour
 		// set the quality setting
 		QualitySettings.SetQualityLevel( (int)graphicsSliderValue, true);
 
-		// scene manager
-		sceneManagerGO = GameObject.Find ("SceneManager");
-		if (sceneManagerGO == null) {
-			sceneManagerGO = (GameObject)Instantiate (sceneManagerPrefab);
-			sceneManagerGO.name = sceneManagerPrefab.name;
-		}
-		// grab a reference to the scene manager script, so we can access it later
-		sceneManager = sceneManagerGO.GetComponent<SceneManager> ();
-		// now tell scene manager about the levels we have in this game
-		if (gameLevels.Length > 0) {
-			sceneManager.levelNames = gameLevels;
+		// level manager
+		if (levelManager == null) {
+			if (gameLevels.Length > 0) {
+				levelManager.LevelNames = gameLevels;
+			}
 		}
 
 		// sound manager
-		if (soundManager != null) {
+		if (soundManager == null) {
 			soundManager = BaseSoundController.Instance;
+
+			soundManager.UpdateVolume ();
 		}
 
 		// music manager
-		if (musicManager != null) {
+		if (musicManager == null) {
 			musicManager = BaseMusicController.Instance;
+
+			musicManager.UpdateVolume ();
 		}
 
 	}
@@ -138,15 +130,15 @@ public class MainMenuController : MonoBehaviour
 			if(GUI.Button(new Rect( 0, 200, 300, 40 ),"START SINGLE", "button") && !isLoading)
 			{
 				PlayerPrefs.SetInt( "totalPlayers", 1 );
-				if(!useSceneManagerToStartgame)
+				if(!useLevelManagerToStartGame)
 				{
 					isLoading=true;
-					Debug.Log ("Telling scene Manager to load single scene mode..");
+					Debug.Log ("Telling level Manager to load single scene mode..");
 					LoadLevel( singleGameStartScene );
 				} else {
 					isLoading=true;
-					Debug.Log ("Telling scene Manager to load next level..");
-					sceneManager.GoNextLevel();	
+					Debug.Log ("Telling level Manager to load next level..");
+					levelManager.GoNextLevel();	
 				}
 			}
 			
@@ -156,12 +148,12 @@ public class MainMenuController : MonoBehaviour
 				{
 					PlayerPrefs.SetInt( "totalPlayers", 2 );
 					
-					if(!useSceneManagerToStartgame)
+					if(!useLevelManagerToStartGame)
 					{
 						LoadLevel( coopGameStartScene );
 					} else {
 						isLoading=true;
-						sceneManager.GoNextLevel();	
+						levelManager.GoNextLevel();	
 					}
 				
 				}
@@ -303,8 +295,8 @@ public class MainMenuController : MonoBehaviour
 	// main logic
 	void LoadLevel( string whichLevel )
 	{
-		// tell the sceneManager object to deal with loading the level
-		sceneManager.LoadLevel ( whichLevel );
+		// tell the levelManager object to deal with loading the level
+		levelManager.LoadLevel ( whichLevel );
 	}
 	
 	void GoMainMenu()

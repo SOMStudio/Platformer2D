@@ -1,24 +1,19 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-public class PlatformFall_Plt2D : MonoBehaviour {
+public class PlatformFall_Plt2D : ExtendedCustomMonoBehaviour2D {
 
-	public float fallDelay = 1.0f;
-	public float killDelay = 3.0f;
+	[SerializeField]
+	private float fallDelay = 1.0f;
+	[SerializeField]
+	private float killDelay = 4.0f;
 
-	private Rigidbody2D rb2d;
+	[SerializeField]
+	private SpawnCoins_Plt2D coinSpawner;
 
 	private GameController_Plt2D gameController;
 
-	void Awake()
-	{
-		rb2d = GetComponent<Rigidbody2D> ();
-	}
-
-	void Start() {
-		Init ();
-	}
-
+	// main event
 	void OnCollisionEnter2D(Collision2D other)
 	{
 		if (other.gameObject.CompareTag ("Player"))
@@ -31,23 +26,41 @@ public class PlatformFall_Plt2D : MonoBehaviour {
 
 			// set kinematic and kill after time
 			Invoke("Fall", fallDelay);
-			Invoke("KillPlatform", killDelay);
+			Invoke("Kill", killDelay);
 		}
 	}
 
-	// init
-	private void Init() {
+	// main logic
+	public override void Init ()
+	{
+		base.Init ();
+
+		if (!coinSpawner)
+			coinSpawner = myGO.GetComponent<SpawnCoins_Plt2D> ();
+
 		if (!gameController)
 			gameController = GameController_Plt2D.Instance;
 	}
 
-	void Fall()
+	public void Fall()
 	{
-		rb2d.isKinematic = false;
+		myBody.isKinematic = false;
 	}
 
-	void KillPlatform()
+	public void Kill()
 	{
+		// destroy coins
+		coinSpawner.Kill ();
+
+		// destroy platform
 		Destroy (this.gameObject);
+	}
+
+	public void FallWithDelay() {
+		Invoke("Fall", fallDelay);
+	}
+
+	public void KillWithDelay() {
+		Invoke("Kill", killDelay);
 	}
 }

@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -7,28 +7,26 @@ using UnityEditor;
 
 public class PauseManager : MonoBehaviour {
 
-	public GameObject pauseWindow;
+	[SerializeField]
+	private GameObject pauseWindow;
+	[SerializeField]
+	private BaseGameController gameController;
 
-	private GameController_Plt2D gameController;
-
-	// Use this for initialization
+	// main event
 	void Start () {
-		if (!gameController)
-			gameController = GameController_Plt2D.Instance;
-
 		pauseWindow.SetActive (false);
 	}
-	
-	// Update is called once per frame
+
 	void Update () {
-		if (gameController.startGame) {
+		if (!gameController.Paused) {
 			if (Input.GetButtonDown ("Cancel")) {
 				Pause ();
 			}
 		}
 	}
 
-	public void Pause(){
+	// main logic
+	void Pause(){
 		pauseWindow.SetActive (!pauseWindow.activeSelf);
 
 		gameController.Paused = (Time.timeScale == 1 ? true : false);
@@ -47,6 +45,6 @@ public class PauseManager : MonoBehaviour {
 		Pause ();
 
 		//load menu
-		Application.LoadLevel( "Menu" );
+		SceneManager.LoadScene( "Menu" );
 	}
 }

@@ -1,30 +1,38 @@
 using UnityEngine;
 using System.Collections;
 
-public class TopDown_Camera : MonoBehaviour {
+public class TopDown_Camera : ExtendedCustomMonoBehaviour {
 
-	public Transform followTarget;
-	public Vector3 targetOffset;
-	public float moveSpeed= 2f;
-	
-	public float maxHeight;
-	public float minHeight;
-	
-	private Transform myTransform;
-	
-	void Start ()
+	[SerializeField]
+	private Transform followTarget;
+	[SerializeField]
+	private Vector3 targetOffset;
+	[SerializeField]
+	private float moveSpeed= 2f;
+
+	// main event
+	void Update ()
 	{
-		myTransform= transform;	
+		if (followTarget) {
+			if (moveSpeed == 0) {
+				myTransform.position = followTarget.position + targetOffset;
+			} else {
+				if ((myTransform.position - (followTarget.position + targetOffset)).magnitude > 0.1f) {
+					myTransform.position = Vector3.Lerp (myTransform.position, followTarget.position + targetOffset, moveSpeed * Time.deltaTime);
+				}
+			}
+		}
 	}
-	
+
+	// main logic
 	public void SetTarget( Transform aTransform )
 	{
-		followTarget= aTransform;	
+		followTarget = aTransform;
 	}
-	
-	void LateUpdate ()
+
+	public void SetPosition( Vector3 val )
 	{
-		if(followTarget!=null)
-			myTransform.position= Vector3.Lerp( myTransform.position, followTarget.position + targetOffset, moveSpeed * Time.deltaTime );
+		myTransform.position = val;
 	}
+
 }

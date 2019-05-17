@@ -3,16 +3,23 @@ using System.Collections.Generic;
 
 public class SpawnPlatforms_Plt2D : MonoBehaviour {
 
-	public int maxPlatforms = 5;
-	public GameObject platformPref;
+	[SerializeField]
+	private int maxPlatforms = 5;
+	[SerializeField]
+	private GameObject platformPref;
 
-	public float horizontalMin = 9f;
-	public float horizontalMax = 17f;
+	[SerializeField]
+	private float horizontalMin = 9f;
+	[SerializeField]
+	private float horizontalMax = 17f;
 
-	public float verticalMin = -4f;
-	public float verticalMax = 4f;
+	[SerializeField]
+	private float verticalMin = -4f;
+	[SerializeField]
+	private float verticalMax = 4f;
 
-	public List<GameObject> listPlatforms = new List<GameObject>();
+	[SerializeField]
+	private List<GameObject> listPlatforms = new List<GameObject>();
 	private Vector3 lastPosition;
 
 	[System.NonSerialized]
@@ -20,6 +27,7 @@ public class SpawnPlatforms_Plt2D : MonoBehaviour {
 
 	private GameController_Plt2D gameController;
 
+	// main event
 	void Awake ()
 	{
 		if (Instance == null)
@@ -36,25 +44,45 @@ public class SpawnPlatforms_Plt2D : MonoBehaviour {
 		if (!gameController)
 			Init ();
 			
-		if (gameController.startGame) {
+		if (gameController.IsGameStart) {
 			if (listPlatforms.Count < maxPlatforms) {
 				SpawnNext ();
 			}
 		}
 	}
 
-	// init
+	// main logic
 	private void Init() {
 		if (!gameController)
 			gameController = GameController_Plt2D.Instance;
 	}
 
-	// list Platform
-	public void AddPlatform(GameObject val) {
+	public float HorizontalMax {
+		get { return horizontalMax; }
+	}
+
+	void AddPlatform(GameObject val) {
 		listPlatforms.Add (val);
 	}
 
 	public void RemovePlatform(GameObject val) {
+		int indxRemove = listPlatforms.IndexOf (val);
+
+		if (indxRemove > 0) {
+			// we jump over some platform
+			for (int i = 0; i < indxRemove; i++) {
+				/// drop platform
+				var pltFallGO = listPlatforms [i];
+				var pltFallManager = pltFallGO.GetComponent<PlatformFall_Plt2D> ();
+				pltFallManager.Fall ();
+				pltFallManager.KillWithDelay ();
+
+				// remove from list
+				listPlatforms.RemoveAt (i);
+			}
+		}
+
+		// drop toched platform
 		listPlatforms.Remove (val);
 	}
 
@@ -81,7 +109,6 @@ public class SpawnPlatforms_Plt2D : MonoBehaviour {
 		return lastPosition;
 	}
 
-	// spawn controll
 	public void SpawnFirst(Vector3 startPos)
 	{
 		//spawn

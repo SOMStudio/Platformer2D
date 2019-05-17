@@ -1,20 +1,41 @@
 ﻿using UnityEngine;
-using System.Collections;
+using UnityEngine.SceneManagement;
 
-public class SceneManager : MonoBehaviour
+public class LevelManager : MonoBehaviour
 {
-	public string[] levelNames;
-	public int gameLevelNum;
-	
-	public void Start ()
+	[SerializeField]
+	private string[] levelNames;
+	[SerializeField]
+	private int gameLevelNum;
+
+	[System.NonSerialized]
+	public static LevelManager Instance;
+
+	// main event
+	void Awake ()
+	{
+		if (Instance == null)
+			Instance = this;
+		else
+			Destroy (this);
+	}
+
+	void Start ()
 	{
 		// keep this object alive
 		DontDestroyOnLoad (this.gameObject);
 	}
-	
+
+	// main logic
+	public string[] LevelNames {
+		get { return levelNames; }
+		set { levelNames = value; }
+	}
+
 	public void LoadLevel( string sceneName )
 	{
-		Application.LoadLevel( sceneName );
+		//Application.LoadLevel( sceneName );
+		SceneManager.LoadScene ( sceneName );
 	}
 		
 	public void ResetGame()

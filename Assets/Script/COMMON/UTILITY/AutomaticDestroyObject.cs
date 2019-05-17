@@ -3,13 +3,16 @@ using System.Collections;
 
 public class AutomaticDestroyObject : MonoBehaviour 
 {
-	public float timeBeforeObjectDestroys;
-	
+	[SerializeField]
+	private float timeBeforeObjectDestroys;
+
+	// main event
 	void Start () {
 		// the function destroyGO() will be called in timeBeforeObjectDestroys seconds
 		Invoke("destroyGO", timeBeforeObjectDestroys);
 	}
-	
+
+	// main logic
 	void destroyGO () {
 		// destroy this gameObject
 		Destroy(gameObject);

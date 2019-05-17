@@ -5,13 +5,18 @@ using System.Collections;
 
 public class BaseUIDataManager : MonoBehaviour
 {
-	// the actual UI drawing is done by a script deriving from this one		
-	public int player_score;
-	public int player_lives;
-	public int player_highscore;
+	[SerializeField]
+	protected string gamePrefsName= "DefaultGame"; // DO NOT FORGET TO SET THIS IN THE EDITOR!!
 
-	public string gamePrefsName= "DefaultGame"; // DO NOT FORGET TO SET THIS IN THE EDITOR!!
-	
+	[Header("Base settings")]
+	[SerializeField]
+	protected int player_score;
+	[SerializeField]
+	protected int player_lives;
+	[SerializeField]
+	protected int player_highscore;
+
+	// main logic
 	public void UpdateScoreP1( int aScore )
 	{
 		player_score=aScore;

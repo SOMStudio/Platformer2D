@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 
 [AddComponentMenu("Base/Character/Left Right Platformer")]
 
@@ -69,7 +68,7 @@ public class BaseLeftRightPlatformer : ExtendedCustomMonoBehaviour2D
 	/// <summary>
 	/// Games the start (canControl = true).
 	/// </summary>
-	protected virtual void GameStart ()
+	public virtual void GameStart ()
 	{
 		// we are good to go, so let's get moving!
 		canControl=true;

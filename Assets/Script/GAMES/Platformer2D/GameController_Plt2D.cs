@@ -1,19 +1,25 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
-
-[AddComponentMenu("Sample Game Glue Code/My/Game Controller")]
 
 public class GameController_Plt2D : BaseGameController
 {
-	public bool startGame = false;
+	[Header("Main Settings")]
+	[SerializeField]
+	private bool startGame = false;
 
-	public string mainMenuSceneName = "Menu";
-	public GameObject[] playerPrefabList;
+	[SerializeField]
+	private string mainMenuSceneName = "Menu";
+	[SerializeField]
+	private GameObject[] playerPrefabList;
 	
-	public SpawnPlatforms_Plt2D spawnController;
+	[SerializeField]
+	private SpawnPlatforms_Plt2D spawnController;
 	
-	public Transform playerParent;
-    public Transform [] startPoints;
+	[SerializeField]
+	private Transform playerParent;
+	[SerializeField]
+	private Transform [] startPoints;
     
 	[System.NonSerialized]
     public GameObject playerGO1;
@@ -33,15 +39,22 @@ public class GameController_Plt2D : BaseGameController
 	private int numberOfPlayers;
 
 	[Header("Managers")]
-	public SpawnPlatforms_Plt2D spawnManager;
-	public UI_Plt2D menuManager;
-	public BaseSoundController soundManager;
+	[SerializeField]
+	private SpawnPlatforms_Plt2D spawnManager;
+	[SerializeField]
+	private LevelManager levelManager;
+	[SerializeField]
+	private UI_Plt2D menuManager;
+	[SerializeField]
+	private BaseSoundController soundManager;
 	
 	[System.NonSerialized]
 	public static GameController_Plt2D Instance;
 	
-	public float gameSpeed=1;
+	[SerializeField]
+	private float gameSpeed = 1;
 
+	// main event
 	void Awake ()
 	{
 		if (Instance == null)
@@ -60,7 +73,10 @@ public class GameController_Plt2D : BaseGameController
 			if (playerGO1) {
 				Vector3 playerPos = playerGO1.transform.position;
 				Vector3 firstPlatformPos = spawnManager.GetFirstPlatformPossition ();
-				if ((playerPos - firstPlatformPos).magnitude > spawnManager.horizontalMax * 2) {
+				if (
+					(playerPos.y < firstPlatformPos.y) // not react for jump up
+					&& ((playerPos - firstPlatformPos).magnitude > spawnManager.HorizontalMax * 2) // chack distance
+				) {
 					// player not controll
 					thePlayerScript.GameEnd ();
 
@@ -75,22 +91,20 @@ public class GameController_Plt2D : BaseGameController
 			}
 		}
 	}
-	
-	public void Init()
+
+	// main logic
+	private void Init()
 	{
 		// init managers
 		InitManagers ();
 
 		SpawnController.Instance.Restart();
 		
-		numberOfPlayers= playerPrefabList.Length;
+		numberOfPlayers = playerPrefabList.Length;
 		
 		// initialize some temporary arrays we can use to set up the players
         Vector3 [] playerStarts = new Vector3 [numberOfPlayers];
         Quaternion [] playerRotations = new Quaternion [numberOfPlayers];
-
-        // we are going to use the array full of start positions that must be set in the editor, which means we always need to
-        // make sure that there are enough start positions for the number of players
 
         for ( int i = 0; i < numberOfPlayers; i++ )
         {
@@ -101,12 +115,12 @@ public class GameController_Plt2D : BaseGameController
 		
         SpawnController.Instance.SetUpPlayers( playerPrefabList, playerStarts, playerRotations, playerParent, numberOfPlayers );
 		
-		playerTransforms=new ArrayList();
+		playerTransforms = new ArrayList ();
 		
 		// now let's grab references to each player's controller script
 		playerTransforms = SpawnController.Instance.GetAllSpawnedPlayers();
 		
-		playerList=new ArrayList();
+		playerList = new ArrayList ();
 		
 		for ( int i = 0; i < numberOfPlayers; i++ )
         {
@@ -150,9 +164,12 @@ public class GameController_Plt2D : BaseGameController
 		Invoke ("StartLevelFirst", 2);
 	}
 
-	void InitManagers() {
+	private void InitManagers() {
 		if (!spawnManager)
 			spawnManager = SpawnPlatforms_Plt2D.Instance;
+
+		if (!levelManager)
+			levelManager = LevelManager.Instance;
 
 		if (!menuManager)
 			menuManager = UI_Plt2D.Instance;
@@ -161,13 +178,13 @@ public class GameController_Plt2D : BaseGameController
 			soundManager = BaseSoundController.Instance;
 	}
 	
-	void StartPlayer()
+	private void StartPlayer()
 	{
 		// all ready to play, let's go!
 		thePlayerScript.GameStart();
 	}
 
-	void StartLevelFirst() {
+	private void StartLevelFirst() {
 		// all ready to play, let's go!
 		StartPlayer ();
 
@@ -177,7 +194,7 @@ public class GameController_Plt2D : BaseGameController
 		startGame = true;
 	}
 
-	void StartLevelNext() {
+	private void StartLevelNext() {
 		// all ready to play, let's go!
 		StartPlayer ();
 
@@ -195,6 +212,8 @@ public class GameController_Plt2D : BaseGameController
 
 		startGame = true;
 	}
+
+	public bool IsGameStart { get { return startGame; } }
 
 	public void PlatformDrop(GameObject val) {
 		// tell our sound controller to play an sound
@@ -215,64 +234,28 @@ public class GameController_Plt2D : BaseGameController
 		// update the score on the UI
 		UpdateScoreP1( mainPlayerDataManager1.GetScore() );
 	}
-
-	public override void EnemyDestroyed ( Vector3 aPosition, int pointsValue, int hitByID )
-	{
-		// tell our sound controller to play an explosion sound
-		soundManager.PlaySoundByIndex( 0, aPosition );
-		
-		// tell main data manager to add score
-		mainPlayerDataManager1.AddScore( pointsValue );
-			
-		// update the score on the UI
-		UpdateScoreP1( mainPlayerDataManager1.GetScore() );
-		
-		// play an explosion effect at the enemy position
-		Explode ( aPosition );
-		
-		// tell spawn controller that we're one enemy closer to the next wave
-		//spawnController.SpawnFirst();
-	}
 	
 	public void PlayerHit(Transform whichPlayer)
 	{
-		// tell our sound controller to play an explosion sound
+		// play sound
 		soundManager.PlaySoundByIndex( 2, whichPlayer.position );
 		
 		// call the explosion function!
 		Explode( whichPlayer.position );
 	}
 	
-	public Player_Plt2D GetMainPlayerScript ()
-	{
-		return focusPlayerScript;
-	}
-	
-	public Transform GetMainPlayerTransform ()
-	{
-		return playerGO1.transform;
-	}
-	
-	public GameObject GetMainPlayerGO ()
-	{
-		return playerGO1;
-	}
-	
 	public void PlayerDied(int whichID)
 	{
-		// this is a single player game, so just end the game now
-		// both players are dead, so end the game
 		menuManager.ShowGameOver();
 		//Invoke ("Exit",5);
 	}
 	
-	void Exit()
+	private void Exit()
 	{
-		Application.LoadLevel( mainMenuSceneName );
+		levelManager.LoadLevel (mainMenuSceneName);
 	}
 	
 	// UI update calls
-	// 
 	public void UpdateScoreP1( int aScore )
 	{
 		menuManager.UpdateScoreP1( aScore );

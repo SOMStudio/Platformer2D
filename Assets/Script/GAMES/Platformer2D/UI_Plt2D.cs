@@ -1,17 +1,20 @@
 using UnityEngine;
-using System.Collections;
-
-[AddComponentMenu("Sample Game Glue Code/Laser Blast Survival/In-Game UI")]
 
 public class UI_Plt2D : BaseUIDataManager
 {
-	public GUIStyle myStyle;
-	public GameObject gameOverMessage;
-	public GameObject getReadyMessage;
+	[Header("Maun settings")]
+	[SerializeField]
+	private GUIStyle myStyle;
+
+	[SerializeField]
+	private GameObject gameOverMessage;
+	[SerializeField]
+	private GameObject getReadyMessage;
 
 	[System.NonSerialized]
 	public static UI_Plt2D Instance;
 
+	// main event
 	void Awake()
 	{
 		if (Instance == null)
@@ -21,7 +24,8 @@ public class UI_Plt2D : BaseUIDataManager
 		
 		Init ();
 	}
-	
+
+	// main logic
 	void Init()
 	{
 		LoadHighScore();
@@ -32,13 +36,13 @@ public class UI_Plt2D : BaseUIDataManager
 		Invoke ("HideMessages", 5);
     }
 	
-	public void HideMessages()
+	void HideMessages()
 	{
 		gameOverMessage.SetActive(false);
 		getReadyMessage.SetActive(false);
 	}
 
-	public void ShowGetReady()
+	void ShowGetReady()
 	{
 		getReadyMessage.SetActive(true);
 	}

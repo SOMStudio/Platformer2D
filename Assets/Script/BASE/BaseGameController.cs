@@ -59,8 +59,8 @@ public class BaseGameController : MonoBehaviour
 	public virtual void RestartGameButtonPressed()
 	{
 		// deal with restart button (default behaviour re-loads the currently loaded scene)
-		Application.LoadLevel(Application.loadedLevelName);
-		//SceneManager.LoadScene (SceneManager.GetActiveScene().name);
+		//Application.LoadLevel(Application.loadedLevelName);
+		SceneManager.LoadScene (SceneManager.GetActiveScene().name);
 	}
 
     public bool Paused
