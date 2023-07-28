@@ -1,19 +1,17 @@
 using UnityEngine;
-using System.Collections;
 
-public class AutomaticDestroyObject : MonoBehaviour 
+public class AutomaticDestroyObject : MonoBehaviour
 {
-	[SerializeField]
-	private float timeBeforeObjectDestroys;
+	[SerializeField] private float timeBeforeObjectDestroys;
 
-	// main event
-	void Start () {
+	private void Start()
+	{
 		// the function destroyGO() will be called in timeBeforeObjectDestroys seconds
-		Invoke("destroyGO", timeBeforeObjectDestroys);
+		Invoke(nameof(destroyGO), timeBeforeObjectDestroys);
 	}
-
-	// main logic
-	void destroyGO () {
+	
+	void destroyGO()
+	{
 		// destroy this gameObject
 		Destroy(gameObject);
 	}

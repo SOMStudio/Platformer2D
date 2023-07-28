@@ -77,7 +77,6 @@ public class Player_Plt2D : BaseLeftRightPlatformer
 		if (isFinished || isRespawning)
 		{
 			horizontal_input=0;
-			vertical_input=0;
 			return;
 		}
 

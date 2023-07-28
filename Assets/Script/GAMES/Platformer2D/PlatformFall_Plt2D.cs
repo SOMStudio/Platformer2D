@@ -1,42 +1,36 @@
 ﻿using UnityEngine;
-using UnityEngine.Events;
 
-public class PlatformFall_Plt2D : ExtendedCustomMonoBehaviour2D {
+public class PlatformFall_Plt2D : ExtendedCustomMonoBehaviour2D
+{
+	[SerializeField] private float fallDelay = 1.0f;
+	[SerializeField] private float killDelay = 4.0f;
 
-	[SerializeField]
-	private float fallDelay = 1.0f;
-	[SerializeField]
-	private float killDelay = 4.0f;
-
-	[SerializeField]
-	private SpawnCoins_Plt2D coinSpawner;
+	[SerializeField] private SpawnCoins_Plt2D coinSpawner;
 
 	private GameController_Plt2D gameController;
-
-	// main event
+	
 	void OnCollisionEnter2D(Collision2D other)
 	{
-		if (other.gameObject.CompareTag ("Player"))
+		if (other.gameObject.CompareTag("Player"))
 		{
 			if (!gameController)
-				Init ();
-			
+				Init();
+
 			// remove from list
-			gameController.PlatformDrop (this.gameObject);
+			gameController.PlatformDrop(this.gameObject);
 
 			// set kinematic and kill after time
-			Invoke("Fall", fallDelay);
-			Invoke("Kill", killDelay);
+			Invoke(nameof(Fall), fallDelay);
+			Invoke(nameof(Kill), killDelay);
 		}
 	}
-
-	// main logic
-	public override void Init ()
+	
+	public override void Init()
 	{
-		base.Init ();
+		base.Init();
 
 		if (!coinSpawner)
-			coinSpawner = myGO.GetComponent<SpawnCoins_Plt2D> ();
+			coinSpawner = myGO.GetComponent<SpawnCoins_Plt2D>();
 
 		if (!gameController)
 			gameController = GameController_Plt2D.Instance;
@@ -50,17 +44,19 @@ public class PlatformFall_Plt2D : ExtendedCustomMonoBehaviour2D {
 	public void Kill()
 	{
 		// destroy coins
-		coinSpawner.Kill ();
+		coinSpawner.Kill();
 
 		// destroy platform
-		Destroy (this.gameObject);
+		Destroy(gameObject);
 	}
 
-	public void FallWithDelay() {
-		Invoke("Fall", fallDelay);
+	public void FallWithDelay()
+	{
+		Invoke(nameof(Fall), fallDelay);
 	}
 
-	public void KillWithDelay() {
-		Invoke("Kill", killDelay);
+	public void KillWithDelay()
+	{
+		Invoke(nameof(Kill), killDelay);
 	}
 }
