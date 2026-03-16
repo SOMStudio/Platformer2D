@@ -25,6 +25,6 @@ Additional:
 2) sounds of picking up bonuses
 3) music in the game
 
-## Unity 2019
+## Unity 2022
 
 ![Skyroads](screenshot.png)
