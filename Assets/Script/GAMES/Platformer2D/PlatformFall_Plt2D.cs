@@ -15,11 +15,9 @@ public class PlatformFall_Plt2D : ExtendedCustomMonoBehaviour2D
 		{
 			if (!gameController)
 				Init();
-
-			// remove from list
+			
 			gameController.PlatformDrop(this.gameObject);
-
-			// set kinematic and kill after time
+			
 			Invoke(nameof(Fall), fallDelay);
 			Invoke(nameof(Kill), killDelay);
 		}
@@ -43,10 +41,8 @@ public class PlatformFall_Plt2D : ExtendedCustomMonoBehaviour2D
 
 	public void Kill()
 	{
-		// destroy coins
 		coinSpawner.Kill();
-
-		// destroy platform
+		
 		Destroy(gameObject);
 	}
 

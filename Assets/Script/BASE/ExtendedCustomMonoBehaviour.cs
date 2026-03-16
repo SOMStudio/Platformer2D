@@ -19,7 +19,6 @@ public class ExtendedCustomMonoBehaviour : MonoBehaviour
 	
 	public virtual void Init()
 	{
-		// cache refs to our transform and gameObject
 		if (!myTransform)
 		{
 			myTransform = transform;

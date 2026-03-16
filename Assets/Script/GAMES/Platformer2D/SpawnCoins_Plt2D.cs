@@ -22,8 +22,7 @@ public class SpawnCoins_Plt2D : MonoBehaviour
 			if (coinShow > 0)
 			{
 				var coinCur = SpawnController.Instance.SpawnGO(coinPref, pointCoins[i].position, Quaternion.identity);
-
-				// add in list
+				
 				listCoins.Add(coinCur);
 			}
 		}

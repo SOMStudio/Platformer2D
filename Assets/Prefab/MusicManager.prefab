@@ -25,12 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1932663024105266}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 418.44904, y: -415.2929, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114258771146568638
 MonoBehaviour:
@@ -60,7 +61,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gamePrefsName: Plt2D
   volume: 0.1
-  music: {fileID: 8300000, guid: 04c7aa6eefc7b444bbbdeace41eeb946, type: 3}
+  music: {fileID: 8300000, guid: 231ec041b01c92149b16e0f37d241c2d, type: 3}
   loopMusic: 1
   fadeTime: 15
   shouldFadeInAtStart: 0

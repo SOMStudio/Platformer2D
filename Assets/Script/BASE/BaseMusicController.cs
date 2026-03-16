@@ -14,11 +14,10 @@ public class BaseMusicController : MonoBehaviour
 
 	private void Start()
 	{
-		// keep this object alive
-		DontDestroyOnLoad(this.gameObject);
+		DontDestroyOnLoad(gameObject);
 	}
-	
-	public void Init()
+
+	private void Init()
 	{
 		if (Instance == null)
 		{

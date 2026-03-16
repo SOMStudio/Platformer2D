@@ -29,7 +29,7 @@ public class PauseManager : MonoBehaviour
 	{
 		pauseWindow.SetActive(!pauseWindow.activeSelf);
 
-		gameController.Paused = Time.timeScale == 1;
+		gameController.Paused = Mathf.Approximately(Time.timeScale, 1);
 	}
 
 	public void Quit()
@@ -43,10 +43,8 @@ public class PauseManager : MonoBehaviour
 
 	public void MainMenuScene()
 	{
-		//unpause game
 		Pause();
-
-		//load menu
+		
 		SceneManager.LoadScene("Menu");
 	}
 }

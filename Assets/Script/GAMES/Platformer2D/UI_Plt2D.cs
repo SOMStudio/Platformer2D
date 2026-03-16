@@ -43,19 +43,17 @@ public class UI_Plt2D : BaseUIDataManager
 
 	public void ShowGameOver()
 	{
-		// save high_score
 		SaveHighScore();
-
-		// show the game over message
+		
 		gameOverMessage.SetActive(true);
 		Invoke(nameof(HideMessages), 3);
 	}
 
-	void OnGUI()
+	private void OnGUI()
 	{
 		GUI.Label(new Rect(10, 10, 100, 50), "PLAYER: 1", myStyle);
-		GUI.Label(new Rect(10, 40, 100, 50), "SCORE: " + player_score, myStyle);
-		GUI.Label(new Rect(10, 70, 200, 50), "HIGH SCORE: " + player_highscore, myStyle);
+		GUI.Label(new Rect(10, 40, 100, 50), "SCORE: " + playerScore, myStyle);
+		GUI.Label(new Rect(10, 70, 200, 50), "HIGH SCORE: " + playerHighScore, myStyle);
 	}
 }
 

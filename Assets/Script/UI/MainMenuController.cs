@@ -38,21 +38,19 @@ public class MainMenuController : MonoBehaviour
 	[SerializeField] private BaseSoundController soundManager;
 
 	[SerializeField] private BaseMusicController musicManager;
-	
+
 	private void Start()
 	{
-		// set up default options, if they have been saved out to prefs already
 		if (PlayerPrefs.HasKey(gamePrefsName + "_SFXVol"))
 		{
 			audioSFXSliderValue = PlayerPrefs.GetFloat(gamePrefsName + "_SFXVol");
 		}
 		else
 		{
-			// if we are missing an SFXVol key, we won't got audio defaults set up so let's do that now
 			string[] names = QualitySettings.names;
 			detailLevels = names.Length;
 			graphicsSliderValue = detailLevels;
-			// save defaults
+
 			SaveOptionsPrefs();
 		}
 
@@ -68,10 +66,8 @@ public class MainMenuController : MonoBehaviour
 
 		Debug.Log("quality=" + graphicsSliderValue);
 
-		// set the quality setting
 		QualitySettings.SetQualityLevel((int)graphicsSliderValue, true);
 
-		// level manager
 		if (levelManager == null)
 		{
 			if (gameLevels.Length > 0)
@@ -80,22 +76,17 @@ public class MainMenuController : MonoBehaviour
 			}
 		}
 
-		// sound manager
 		if (soundManager == null)
 		{
 			soundManager = BaseSoundController.Instance;
-
 			soundManager.UpdateVolume();
 		}
 
-		// music manager
 		if (musicManager == null)
 		{
 			musicManager = BaseMusicController.Instance;
-
 			musicManager.UpdateVolume();
 		}
-
 	}
 
 	private void OnGUI()
@@ -110,8 +101,6 @@ public class MainMenuController : MonoBehaviour
 		{
 			case 0:
 				GUI.BeginGroup(new Rect(default_width / 2 - 150, default_height / 2 - 250, 500, 500));
-
-				// All rectangles are now adjusted to the group. (0,0) is the topleft corner of the group.
 
 				GUI.Label(new Rect(0, 50, 300, 50), gameDisplayName, "textarea");
 
@@ -167,17 +156,14 @@ public class MainMenuController : MonoBehaviour
 				{
 					ConfirmExitGame();
 				}
-
-				// End the group we started above. This is very important to remember!
+				
 				GUI.EndGroup();
 
 				break;
 
 			case 1:
-				// Options menu
 				GUI.BeginGroup(new Rect(default_width / 2 - 150, default_height / 2 - 250, 500, 500));
-
-				// Are you sure you want to exit?
+				
 				GUI.Label(new Rect(0, 50, 300, 50), "OPTIONS", "textarea");
 
 				if (GUI.Button(new Rect(0, 250, 300, 40), "AUDIO OPTIONS"))
@@ -201,8 +187,7 @@ public class MainMenuController : MonoBehaviour
 
 			case 2:
 				GUI.BeginGroup(new Rect(default_width / 2 - 150, default_height / 2 - 250, 500, 500));
-
-				// Are you sure you want to exit?
+				
 				GUI.Label(new Rect(0, 50, 300, 50), "Are you sure you want to exit?", "textarea");
 
 				if (GUI.Button(new Rect(0, 250, 300, 40), "YES, QUIT PLEASE!"))
@@ -220,23 +205,21 @@ public class MainMenuController : MonoBehaviour
 				break;
 
 			case 3:
-				// AUDIO OPTIONS
 				GUI.BeginGroup(new Rect(default_width / 2 - 150, default_height / 2 - 250, 500, 500));
-
-				// Are you sure you want to exit?
+				
 				GUI.Label(new Rect(0, 50, 300, 50), "AUDIO OPTIONS", "textarea");
 
 				GUI.Label(new Rect(0, 170, 300, 20), "SFX volume:");
-				float audioSFXSliderValue_new =
+				float audioSfxSliderValueNew =
 					GUI.HorizontalSlider(new Rect(0, 200, 300, 50), audioSFXSliderValue, 0.0f, 1f);
 
 				GUI.Label(new Rect(0, 270, 300, 20), "Music volume:");
-				float audioMusicSliderValue_new =
+				float audioMusicSliderValueNew =
 					GUI.HorizontalSlider(new Rect(0, 300, 300, 50), audioMusicSliderValue, 0.0f, 1f);
 
-				if (audioSFXSliderValue_new != audioSFXSliderValue)
+				if (audioSfxSliderValueNew != audioSFXSliderValue)
 				{
-					audioSFXSliderValue = audioSFXSliderValue_new;
+					audioSFXSliderValue = audioSfxSliderValueNew;
 
 					if (soundManager != null)
 					{
@@ -246,9 +229,9 @@ public class MainMenuController : MonoBehaviour
 					}
 				}
 
-				if (audioMusicSliderValue_new != audioMusicSliderValue)
+				if (audioMusicSliderValueNew != audioMusicSliderValue)
 				{
-					audioMusicSliderValue = audioMusicSliderValue_new;
+					audioMusicSliderValue = audioMusicSliderValueNew;
 
 					if (musicManager != null)
 					{
@@ -268,10 +251,8 @@ public class MainMenuController : MonoBehaviour
 				break;
 
 			case 4:
-				// GRAPHICS OPTIONS
 				GUI.BeginGroup(new Rect(default_width / 2 - 150, default_height / 2 - 250, 500, 500));
-
-				// Are you sure you want to exit?
+				
 				GUI.Label(new Rect(0, 50, 300, 50), "GRAPHICS OPTIONS", "textarea");
 
 				GUI.Label(new Rect(0, 170, 300, 20), "Graphics quality:");
@@ -293,7 +274,6 @@ public class MainMenuController : MonoBehaviour
 	
 	private void LoadLevel(string whichLevel)
 	{
-		// tell the levelManager object to deal with loading the level
 		levelManager.LoadLevel(whichLevel);
 	}
 
@@ -322,8 +302,7 @@ public class MainMenuController : MonoBehaviour
 		PlayerPrefs.SetFloat(gamePrefsName + "_SFXVol", audioSFXSliderValue);
 		PlayerPrefs.SetFloat(gamePrefsName + "_MusicVol", audioMusicSliderValue);
 		PlayerPrefs.SetFloat(gamePrefsName + "_GraphicsDetail", graphicsSliderValue);
-
-		// set the quality setting
+		
 		QualitySettings.SetQualityLevel((int)graphicsSliderValue, true);
 	}
 

@@ -8,11 +8,9 @@ public class PickupCoin_Plt2D : MonoBehaviour
 		{
 			string namePlayer = other.GetComponent<BaseUserManager>().GetName();
 			int codePlayer = namePlayer.GetHashCode();
-
-			// add bonus
-			GameController_Plt2D.Instance.CoinsTaked(this.transform.position, 10, codePlayer);
-
-			//destroy object
+			
+			GameController_Plt2D.Instance.CoinsTake(this.transform.position, 10, codePlayer);
+			
 			Destroy(this.gameObject);
 		}
 	}

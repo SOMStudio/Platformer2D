@@ -2,7 +2,7 @@
 
 public class MusicController : MonoBehaviour
 {
-	[SerializeField] private string gamePrefsName = "DefaultGame"; // DO NOT FORGET TO SET THIS IN THE EDITOR!!
+	[SerializeField] private string gamePrefsName = "DefaultGame";
 
 	[Range(0, 1)]
 	public float volume;
@@ -23,7 +23,6 @@ public class MusicController : MonoBehaviour
 	
 	private void Start()
 	{
-		// we will grab the volume from PlayerPrefs when this script first starts
 		string stKey = $"{gamePrefsName}_MusicVol";
 		if (PlayerPrefs.HasKey(stKey))
 		{
@@ -33,8 +32,7 @@ public class MusicController : MonoBehaviour
 		{
 			volumeON = 0.1f;
 		}
-
-		// create a game object and add an AudioSource to it, to play music on
+		
 		sourceGO = new GameObject("Music_AudioSource");
 		source = sourceGO.AddComponent<AudioSource>();
 		source.name = "MusicAudioSource";
@@ -42,8 +40,7 @@ public class MusicController : MonoBehaviour
 		source.clip = music;
 		source.volume = volume;
 		DontDestroyOnLoad(sourceGO);
-
-		// the script will automatically fade in if this is set
+		
 		if (shouldFadeInAtStart)
 		{
 			fadeState = 0;
@@ -54,8 +51,7 @@ public class MusicController : MonoBehaviour
 			fadeState = 1;
 			volume = volumeON;
 		}
-
-		// set up default values
+		
 		targetFadeState = 1;
 		targetVolume = volumeON;
 		source.volume = volume;
@@ -63,11 +59,9 @@ public class MusicController : MonoBehaviour
 
 	private void Update()
 	{
-		// if the audio-source is not playing and it's supposed to loop, play it again (Sam?)
 		if (!source.isPlaying && loopMusic)
 			source.Play();
-
-		// deal with volume fade in/out
+		
 		if (fadeState != targetFadeState)
 		{
 			if (targetFadeState == 1)

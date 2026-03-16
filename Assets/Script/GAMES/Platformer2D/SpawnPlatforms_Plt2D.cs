@@ -18,7 +18,7 @@ public class SpawnPlatforms_Plt2D : MonoBehaviour
 	[System.NonSerialized] public static SpawnPlatforms_Plt2D Instance;
 
 	private GameController_Plt2D gameController;
-	
+
 	private void Awake()
 	{
 		if (Instance == null)
@@ -45,17 +45,13 @@ public class SpawnPlatforms_Plt2D : MonoBehaviour
 			}
 		}
 	}
-	
+
 	private void Init()
 	{
-		if (!gameController)
-			gameController = GameController_Plt2D.Instance;
+		if (!gameController) gameController = GameController_Plt2D.Instance;
 	}
 
-	public float HorizontalMax
-	{
-		get { return horizontalMax; }
-	}
+	public float HorizontalMax => horizontalMax;
 
 	private void AddPlatform(GameObject val)
 	{
@@ -68,33 +64,27 @@ public class SpawnPlatforms_Plt2D : MonoBehaviour
 
 		if (indexRemove > 0)
 		{
-			// we jump over some platform
 			for (int i = 0; i < indexRemove; i++)
 			{
-				// drop platform
-				var pltFallGO = listPlatforms[i];
-				var pltFallManager = pltFallGO.GetComponent<PlatformFall_Plt2D>();
-				pltFallManager.Fall();
-				pltFallManager.KillWithDelay();
+				var platformFallGameObject = listPlatforms[i];
+				var platformFallManager = platformFallGameObject.GetComponent<PlatformFall_Plt2D>();
+				platformFallManager.Fall();
+				platformFallManager.KillWithDelay();
 
-				// remove from list
 				listPlatforms.RemoveAt(i);
 			}
 		}
 
-		// drop touched platform
 		listPlatforms.Remove(val);
 	}
 
 	public void RemovePlatAll()
 	{
-		// destroy platforms
 		foreach (GameObject item in listPlatforms)
 		{
 			Destroy(item);
 		}
 
-		// destroy coins
 		GameObject[] coinList = GameObject.FindGameObjectsWithTag("Coin");
 		foreach (GameObject item in coinList)
 		{
@@ -116,15 +106,12 @@ public class SpawnPlatforms_Plt2D : MonoBehaviour
 
 	public void SpawnFirst(Vector3 startPos)
 	{
-		//spawn
 		Vector3 pos = new Vector3(startPos.x, startPos.y - verticalMax, 0);
 		GameObject go = SpawnController.Instance.SpawnGO(platformPref, pos, Quaternion.identity);
-		go.transform.parent = this.transform;
+		go.transform.parent = transform;
 
-		// set position
 		lastPosition = pos;
 
-		// set for control
 		listPlatforms.Add(go);
 
 		SpawnGrope();
@@ -140,16 +127,13 @@ public class SpawnPlatforms_Plt2D : MonoBehaviour
 
 	private void SpawnNext()
 	{
-		//spawn
 		Vector3 pos = lastPosition + new Vector3(Random.Range(horizontalMin, horizontalMax),
 			Random.Range(verticalMin, verticalMax), 0);
 		GameObject go = SpawnController.Instance.SpawnGO(platformPref, pos, Quaternion.identity);
-		go.transform.parent = this.transform;
+		go.transform.parent = transform;
 
-		// set position
 		lastPosition = pos;
 
-		// set for control
 		listPlatforms.Add(go);
 	}
 }
