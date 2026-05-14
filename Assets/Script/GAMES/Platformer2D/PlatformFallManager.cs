@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 
-public class PlatformFall_Plt2D : ExtendedCustomMonoBehaviour2D
+public class PlatformFallManager : ExtendedCustomMonoBehaviour2D
 {
 	[SerializeField] private float fallDelay = 1.0f;
 	[SerializeField] private float killDelay = 4.0f;
 
-	[SerializeField] private SpawnCoins_Plt2D coinSpawner;
+	[SerializeField] private SpawnCoinsManager coinSpawner;
 
-	private GameController_Plt2D gameController;
+	private GameController gameController;
 	
 	void OnCollisionEnter2D(Collision2D other)
 	{
@@ -28,10 +28,10 @@ public class PlatformFall_Plt2D : ExtendedCustomMonoBehaviour2D
 		base.Init();
 
 		if (!coinSpawner)
-			coinSpawner = myGO.GetComponent<SpawnCoins_Plt2D>();
+			coinSpawner = myGO.GetComponent<SpawnCoinsManager>();
 
 		if (!gameController)
-			gameController = GameController_Plt2D.Instance;
+			gameController = GameController.Instance;
 	}
 
 	public void Fall()

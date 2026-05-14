@@ -1,11 +1,11 @@
 using UnityEngine;
 
-[AddComponentMenu("Base/Player Manager")]
+[AddComponentMenu("SOMStudio/Platformer2D/Player Data Manager")]
 public class BasePlayerManager : MonoBehaviour
 {
 	[SerializeField] protected bool didInit;
 
-	[SerializeField] protected BaseUserManager DataManager;
+	[SerializeField] protected BaseUserManager dataManager;
 
 	private void Awake()
 	{
@@ -14,31 +14,31 @@ public class BasePlayerManager : MonoBehaviour
 
 	protected virtual void Init()
 	{
-		if (!DataManager)
+		if (!dataManager)
 		{
-			DataManager = gameObject.GetComponent<BaseUserManager>();
+			dataManager = gameObject.GetComponent<BaseUserManager>();
 
-			if (!DataManager)
-				DataManager = gameObject.AddComponent<BaseUserManager>();
+			if (!dataManager)
+				dataManager = gameObject.AddComponent<BaseUserManager>();
 		}
 
-		DataManager.GetDefaultData();
+		dataManager.GetDefaultData();
 
 		didInit = true;
 	}
 
 	public BaseUserManager GetDataManager()
 	{
-		return DataManager;
+		return dataManager;
 	}
 
 	public virtual void GameFinished()
 	{
-		DataManager.SetIsFinished(true);
+		dataManager.SetIsFinished(true);
 	}
 
 	public virtual void GameStart()
 	{
-		DataManager.SetIsFinished(false);
+		dataManager.SetIsFinished(false);
 	}
 }

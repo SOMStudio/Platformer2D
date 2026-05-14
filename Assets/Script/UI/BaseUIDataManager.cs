@@ -1,7 +1,5 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
-[AddComponentMenu("Base/UI Data Manager")]
 public class BaseUIDataManager : MonoBehaviour
 {
 	[SerializeField] protected string gamePrefsName = "DefaultGame";

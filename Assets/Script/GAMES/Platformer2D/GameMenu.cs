@@ -1,14 +1,15 @@
 using UnityEngine;
 
-public class UI_Plt2D : BaseUIDataManager
+[AddComponentMenu("SOMStudio/Platformer2D/Game Menu")]
+public class GameMenu : BaseUIDataManager
 {
-	[Header("Manu settings")] [SerializeField]
-	private GUIStyle myStyle;
+	[Header("Manu settings")]
+	[SerializeField] private GUIStyle myStyle;
 
 	[SerializeField] private GameObject gameOverMessage;
 	[SerializeField] private GameObject getReadyMessage;
 
-	[System.NonSerialized] public static UI_Plt2D Instance;
+	[System.NonSerialized] public static GameMenu Instance;
 
 	private void Awake()
 	{

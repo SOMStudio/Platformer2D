@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class SpawnCoins_Plt2D : MonoBehaviour
+public class SpawnCoinsManager : MonoBehaviour
 {
 	[SerializeField] private Transform[] pointCoins;
 	[SerializeField] private GameObject coinPref;
@@ -21,7 +21,7 @@ public class SpawnCoins_Plt2D : MonoBehaviour
 
 			if (coinShow > 0)
 			{
-				var coinCur = SpawnController.Instance.SpawnGO(coinPref, pointCoins[i].position, Quaternion.identity);
+				var coinCur = SpawnController.Instance.SpawnGameObject(coinPref, pointCoins[i].position, Quaternion.identity);
 				
 				listCoins.Add(coinCur);
 			}

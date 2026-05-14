@@ -1,40 +1,41 @@
 using UnityEngine;
 using System.Collections;
 
-public class GameController_Plt2D : BaseGameController
+[AddComponentMenu("SOMStudio/Platformer2D/Game Controller")]
+public class GameController : BaseGameController
 {
-	[Header("Main Settings")] [SerializeField]
-	private bool startGame;
+	[Header("Main Settings")]
+	[SerializeField] private bool startGame;
 
 	[SerializeField] private string mainMenuSceneName = "Menu";
 	[SerializeField] private GameObject[] playerPrefabList;
 
-	[SerializeField] private SpawnPlatforms_Plt2D spawnController;
+	[SerializeField] private SpawnPlatformsManager spawnController;
 
 	[SerializeField] private Transform playerParent;
 	[SerializeField] private Transform[] startPoints;
 
-	[System.NonSerialized] public GameObject playerGO1;
+	[System.NonSerialized] public GameObject playerGameObject;
 
 	private Vector3[] playerStarts;
 	private Quaternion[] playerRotations;
 
-	private ArrayList playerList;
+	private ArrayList players;
 	private ArrayList playerTransforms;
 
-	private Player_Plt2D thePlayerScript;
-	private Player_Plt2D focusPlayerScript;
+	private PlayerManager thePlayerScript;
 
 	[System.NonSerialized] public BaseUserManager mainPlayerDataManager1;
 
 	private int numberOfPlayers;
 
-	[Header("Managers")] [SerializeField] private SpawnPlatforms_Plt2D spawnManager;
+	[Header("Managers")]
+	[SerializeField] private SpawnPlatformsManager spawnManager;
 	[SerializeField] private LevelManager levelManager;
-	[SerializeField] private UI_Plt2D menuManager;
+	[SerializeField] private GameMenu menuManager;
 	[SerializeField] private BaseSoundController soundManager;
 
-	[System.NonSerialized] public static GameController_Plt2D Instance;
+	[System.NonSerialized] public static GameController Instance;
 
 	[SerializeField] private float gameSpeed = 1;
 
@@ -55,9 +56,9 @@ public class GameController_Plt2D : BaseGameController
 	{
 		if (startGame)
 		{
-			if (playerGO1)
+			if (playerGameObject)
 			{
-				Vector3 playerPos = playerGO1.transform.position;
+				Vector3 playerPos = playerGameObject.transform.position;
 				Vector3 firstPlatformPos = spawnManager.GetFirstPlatformPosition();
 				if (
 					playerPos.y < firstPlatformPos.y
@@ -84,42 +85,40 @@ public class GameController_Plt2D : BaseGameController
 
 		numberOfPlayers = playerPrefabList.Length;
 
-		Vector3[] playerStarts = new Vector3 [numberOfPlayers];
-		Quaternion[] playerRotations = new Quaternion [numberOfPlayers];
+		Vector3[] playerStartPositions = new Vector3 [numberOfPlayers];
+		Quaternion[] playerStartRotations = new Quaternion [numberOfPlayers];
 
 		for (int i = 0; i < numberOfPlayers; i++)
 		{
-			playerStarts[i] = startPoints[i].position;
-			playerRotations[i] = startPoints[i].rotation;
+			playerStartPositions[i] = startPoints[i].position;
+			playerStartRotations[i] = startPoints[i].rotation;
 		}
 
-		SpawnController.Instance.SetUpPlayers(playerPrefabList, playerStarts, playerRotations, playerParent,
+		SpawnController.Instance.SetUpPlayers(playerPrefabList, playerStartPositions, playerStartRotations, playerParent,
 			numberOfPlayers);
 
 		playerTransforms = new ArrayList();
 
 		playerTransforms = SpawnController.Instance.GetAllSpawnedPlayers();
 
-		playerList = new ArrayList();
+		players = new ArrayList();
 
 		for (int i = 0; i < numberOfPlayers; i++)
 		{
 			Transform tempT = (Transform)playerTransforms[i];
-			Player_Plt2D tempController = tempT.GetComponent<Player_Plt2D>();
-			playerList.Add(tempController);
+			PlayerManager tempController = tempT.GetComponent<PlayerManager>();
+			players.Add(tempController);
 		}
 
-		playerGO1 = SpawnController.Instance.GetPlayerGO(0);
+		playerGameObject = SpawnController.Instance.GetPlayerGameObject(0);
 
-		thePlayerScript = playerGO1.GetComponent<Player_Plt2D>();
+		thePlayerScript = playerGameObject.GetComponent<PlayerManager>();
 
 		thePlayerScript.SetID(0);
 
 		thePlayerScript.SetUserInput(true);
 
-		focusPlayerScript = thePlayerScript;
-
-		Transform aTarget = playerGO1.transform.Find("CamTarget");
+		Transform aTarget = playerGameObject.transform.Find("CamTarget");
 
 		if (aTarget != null)
 		{
@@ -127,10 +126,10 @@ public class GameController_Plt2D : BaseGameController
 		}
 		else
 		{
-			Camera.main.SendMessage("SetTarget", playerGO1.transform);
+			Camera.main.SendMessage("SetTarget", playerGameObject.transform);
 		}
 
-		mainPlayerDataManager1 = playerGO1.GetComponent<BasePlayerManager>().GetDataManager();
+		mainPlayerDataManager1 = playerGameObject.GetComponent<BasePlayerManager>().GetDataManager();
 
 		Invoke(nameof(StartLevelFirst), 2);
 	}
@@ -138,13 +137,13 @@ public class GameController_Plt2D : BaseGameController
 	private void InitManagers()
 	{
 		if (!spawnManager)
-			spawnManager = SpawnPlatforms_Plt2D.Instance;
+			spawnManager = SpawnPlatformsManager.Instance;
 
 		if (!levelManager)
 			levelManager = LevelManager.Instance;
 
 		if (!menuManager)
-			menuManager = UI_Plt2D.Instance;
+			menuManager = GameMenu.Instance;
 
 		if (!soundManager)
 			soundManager = BaseSoundController.Instance;
@@ -159,7 +158,7 @@ public class GameController_Plt2D : BaseGameController
 	{
 		StartPlayer();
 
-		spawnController.SpawnFirst(playerGO1.transform.position);
+		spawnController.SpawnFirst(playerGameObject.transform.position);
 
 		startGame = true;
 	}
@@ -174,7 +173,7 @@ public class GameController_Plt2D : BaseGameController
 
 		spawnController.RemovePlatAll();
 
-		spawnController.SpawnFirst(playerGO1.transform.position);
+		spawnController.SpawnFirst(playerGameObject.transform.position);
 
 		startGame = true;
 	}

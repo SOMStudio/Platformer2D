@@ -1,23 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class SpawnPlatforms_Plt2D : MonoBehaviour
+[AddComponentMenu("SOMStudio/Platformer2D/Spawn Platforms Controller")]
+public class SpawnPlatformsManager : MonoBehaviour
 {
-	[SerializeField] private int maxPlatforms = 5;
+	[SerializeField] private int maxPlatforms = 3;
 	[SerializeField] private GameObject platformPref;
 
 	[SerializeField] private float horizontalMin = 9f;
 	[SerializeField] private float horizontalMax = 17f;
 
-	[SerializeField] private float verticalMin = -4f;
-	[SerializeField] private float verticalMax = 4f;
+	[SerializeField] private float verticalMin = -3.5f;
+	[SerializeField] private float verticalMax = 3.5f;
 
-	[SerializeField] private List<GameObject> listPlatforms = new List<GameObject>();
+	[SerializeField] private List<GameObject> listPlatforms = new();
 	private Vector3 lastPosition;
 
-	[System.NonSerialized] public static SpawnPlatforms_Plt2D Instance;
+	[System.NonSerialized] public static SpawnPlatformsManager Instance;
 
-	private GameController_Plt2D gameController;
+	private GameController gameController;
 
 	private void Awake()
 	{
@@ -48,7 +49,7 @@ public class SpawnPlatforms_Plt2D : MonoBehaviour
 
 	private void Init()
 	{
-		if (!gameController) gameController = GameController_Plt2D.Instance;
+		if (!gameController) gameController = GameController.Instance;
 	}
 
 	public float HorizontalMax => horizontalMax;
@@ -67,7 +68,7 @@ public class SpawnPlatforms_Plt2D : MonoBehaviour
 			for (int i = 0; i < indexRemove; i++)
 			{
 				var platformFallGameObject = listPlatforms[i];
-				var platformFallManager = platformFallGameObject.GetComponent<PlatformFall_Plt2D>();
+				var platformFallManager = platformFallGameObject.GetComponent<PlatformFallManager>();
 				platformFallManager.Fall();
 				platformFallManager.KillWithDelay();
 
@@ -107,7 +108,7 @@ public class SpawnPlatforms_Plt2D : MonoBehaviour
 	public void SpawnFirst(Vector3 startPos)
 	{
 		Vector3 pos = new Vector3(startPos.x, startPos.y - verticalMax, 0);
-		GameObject go = SpawnController.Instance.SpawnGO(platformPref, pos, Quaternion.identity);
+		GameObject go = SpawnController.Instance.SpawnGameObject(platformPref, pos, Quaternion.identity);
 		go.transform.parent = transform;
 
 		lastPosition = pos;
@@ -129,7 +130,7 @@ public class SpawnPlatforms_Plt2D : MonoBehaviour
 	{
 		Vector3 pos = lastPosition + new Vector3(Random.Range(horizontalMin, horizontalMax),
 			Random.Range(verticalMin, verticalMax), 0);
-		GameObject go = SpawnController.Instance.SpawnGO(platformPref, pos, Quaternion.identity);
+		GameObject go = SpawnController.Instance.SpawnGameObject(platformPref, pos, Quaternion.identity);
 		go.transform.parent = transform;
 
 		lastPosition = pos;

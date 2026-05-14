@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[AddComponentMenu("Base/User Manager")]
+[AddComponentMenu("SOMStudio/Platformer2D/User Manager")]
 public class BaseUserManager : MonoBehaviour
 {
 	protected int score;

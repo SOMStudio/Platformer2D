@@ -1,6 +1,7 @@
 using UnityEngine;
 
-public class Player_Plt2D : BaseLeftRightPlatformer
+[AddComponentMenu("Base/Character/Player Manager")]
+public class PlayerManager : BaseLeftRightPlatformer
 {
 	[SerializeField] private Transform cameraOffsetPoint;
 	[SerializeField] private Vector2 cameraOffsetValue;
@@ -40,7 +41,7 @@ public class Player_Plt2D : BaseLeftRightPlatformer
 
 		isFinished = false;
 
-		GameController_Plt2D.Instance.UpdateLivesP1(myDataManager.GetHealth());
+		GameController.Instance.UpdateLivesP1(myDataManager.GetHealth());
 	}
 
 	protected override void UpdateCharacter()
@@ -56,7 +57,7 @@ public class Player_Plt2D : BaseLeftRightPlatformer
 		if (cameraOffsetPoint)
 		{
 			myVelocityYNorm = Mathf.Lerp(myVelocityYNorm, Mathf.Clamp(myBody.velocity.y, -1.0f, 1.0f), Time.deltaTime);
-			cameraOffsetPoint.localPosition = new Vector3(cameraOffsetValue.x * Mathf.Abs(horizontal_input),
+			cameraOffsetPoint.localPosition = new Vector3(cameraOffsetValue.x * Mathf.Abs(horizontalInput),
 				cameraOffsetValue.y * myVelocityYNorm, 0);
 		}
 	}
@@ -65,7 +66,7 @@ public class Player_Plt2D : BaseLeftRightPlatformer
 	{
 		if (isFinished || isRespawning)
 		{
-			horizontal_input = 0;
+			horizontalInput = 0;
 			return;
 		}
 
@@ -81,11 +82,11 @@ public class Player_Plt2D : BaseLeftRightPlatformer
 	{
 		isRespawning = true;
 
-		GameController_Plt2D.Instance.PlayerHit(myTransform);
+		GameController.Instance.PlayerHit(myTransform);
 
 		myDataManager.ReduceHealth(1);
 
-		GameController_Plt2D.Instance.UpdateLivesP1(myDataManager.GetHealth());
+		GameController.Instance.UpdateLivesP1(myDataManager.GetHealth());
 
 		if (myDataManager.GetHealth() < 1)
 		{
@@ -141,7 +142,7 @@ public class Player_Plt2D : BaseLeftRightPlatformer
 
 	public void PlayerFinished()
 	{
-		GameController_Plt2D.Instance.PlayerDied(id);
+		GameController.Instance.PlayerDied(id);
 
 		isFinished = true;
 	}

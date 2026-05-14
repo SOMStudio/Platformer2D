@@ -6,10 +6,10 @@ public class AutomaticDestroyObject : MonoBehaviour
 
 	private void Start()
 	{
-		Invoke(nameof(destroyGO), timeBeforeObjectDestroys);
+		Invoke(nameof(DestroyGo), timeBeforeObjectDestroys);
 	}
-	
-	void destroyGO()
+
+	private void DestroyGo()
 	{
 		Destroy(gameObject);
 	}

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TopDown_Camera : ExtendedCustomMonoBehaviour
+public class TopDownCamera : ExtendedCustomMonoBehaviour
 {
 	[SerializeField] private Transform followTarget;
 	[SerializeField] private Vector3 targetOffset;

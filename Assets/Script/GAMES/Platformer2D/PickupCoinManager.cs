@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PickupCoin_Plt2D : MonoBehaviour
+public class PickupCoinManager : MonoBehaviour
 {
 	void OnTriggerEnter2D(Collider2D other)
 	{
@@ -9,7 +9,7 @@ public class PickupCoin_Plt2D : MonoBehaviour
 			string namePlayer = other.GetComponent<BaseUserManager>().GetName();
 			int codePlayer = namePlayer.GetHashCode();
 			
-			GameController_Plt2D.Instance.CoinsTake(this.transform.position, 10, codePlayer);
+			GameController.Instance.CoinsTake(this.transform.position, 10, codePlayer);
 			
 			Destroy(this.gameObject);
 		}

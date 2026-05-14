@@ -1,24 +1,23 @@
 using UnityEngine;
 
-[AddComponentMenu("Base/Character/Left Right Platform")]
 public class BaseLeftRightPlatformer : ExtendedCustomMonoBehaviour2D
 {
-	[Header("Move settings")] [SerializeField]
-	protected float moveXSpeed = 20f;
+	[Header("Move settings")]
+	[SerializeField] protected float moveXSpeed = 20f;
 
 	[SerializeField] protected float jumpForce = 300f;
-
-	[Header("Technic value")] [SerializeField]
-	protected float horizontal_input;
+	
+	[Header("Technic value")]
+	[SerializeField] protected float horizontalInput;
 
 	[SerializeField] protected bool facingRight = true;
 	[SerializeField] protected bool clickJump;
 	[SerializeField] protected bool grounded;
 
-	[Header("Technic references")] [SerializeField]
-	protected Transform groundPoint;
+	[Header("Technic references")]
+	[SerializeField] protected Transform groundPoint;
 
-	protected Keyboard_Input defaultInput;
+	protected KeyboardInput defaultInput;
 	protected Animator myAnimator;
 
 	private static readonly int Grounded = Animator.StringToHash("grounded");
@@ -47,7 +46,7 @@ public class BaseLeftRightPlatformer : ExtendedCustomMonoBehaviour2D
 
 		if (!defaultInput)
 		{
-			defaultInput = myGO.AddComponent<Keyboard_Input>();
+			defaultInput = myGO.AddComponent<KeyboardInput>();
 		}
 
 		didInit = true;
@@ -71,7 +70,7 @@ public class BaseLeftRightPlatformer : ExtendedCustomMonoBehaviour2D
 
 	protected virtual void GetInput()
 	{
-		horizontal_input = defaultInput.GetHorizontal();
+		horizontalInput = defaultInput.GetHorizontal();
 		defaultInput.GetVertical();
 
 		if (Input.GetButtonDown("Jump") && grounded && !clickJump)
@@ -91,14 +90,14 @@ public class BaseLeftRightPlatformer : ExtendedCustomMonoBehaviour2D
 		grounded = Physics2D.Linecast(transform.position, groundPoint.position, 1 << LayerMask.NameToLayer("Ground"));
 
 		myAnimator.SetBool(Grounded, grounded);
-		myAnimator.SetFloat(RunSpeed, Mathf.Abs(horizontal_input));
+		myAnimator.SetFloat(RunSpeed, Mathf.Abs(horizontalInput));
 
 		if (defaultInput.Right && !facingRight)
 			Flip();
 		else if (defaultInput.Left && facingRight)
 			Flip();
 
-		myBody.velocity = new Vector2(horizontal_input * moveXSpeed, myBody.velocity.y);
+		myBody.velocity = new Vector2(horizontalInput * moveXSpeed, myBody.velocity.y);
 
 		if (clickJump && grounded)
 		{

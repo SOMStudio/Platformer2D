@@ -1,12 +1,12 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-[AddComponentMenu("Base/Sound Controller")]
+[AddComponentMenu("SOMStudio/Platformer2D/Sound Controller")]
 public class BaseSoundController : MonoBehaviour
 {
 	[SerializeField] private string gamePrefsName = "DefaultGame";
 
-	[SerializeField] protected AudioClip[] GameSounds;
+	[SerializeField] protected AudioClip[] gameSounds;
 
 	private int totalSounds;
 	private List<SoundObject> soundObjectList;
@@ -45,10 +45,10 @@ public class BaseSoundController : MonoBehaviour
 	{
 		DontDestroyOnLoad(gameObject);
 		
-		string stKey = $"{gamePrefsName}_SFXVol";
-		if (PlayerPrefs.HasKey(stKey))
+		string stringKey = $"{gamePrefsName}_SFXVol";
+		if (PlayerPrefs.HasKey(stringKey))
 		{
-			volume = PlayerPrefs.GetFloat(stKey);
+			volume = PlayerPrefs.GetFloat(stringKey);
 		}
 		else
 		{
@@ -57,12 +57,12 @@ public class BaseSoundController : MonoBehaviour
 
 		soundObjectList = new List<SoundObject>();
 		
-		foreach (AudioClip theSound in GameSounds)
+		foreach (AudioClip theSound in gameSounds)
 		{
 			tempSoundObj = new SoundObject(theSound, theSound.name, volume);
 			soundObjectList.Add(tempSoundObj);
 			
-			DontDestroyOnLoad(tempSoundObj.sourceGO);
+			DontDestroyOnLoad(tempSoundObj.sourceGameObject);
 
 			totalSounds++;
 		}
@@ -80,8 +80,8 @@ public class BaseSoundController : MonoBehaviour
 			Init();
 		}
 
-		string stKey = $"{gamePrefsName}_SFXVol";
-		volume = PlayerPrefs.GetFloat(stKey);
+		string stringKey = $"{gamePrefsName}_SFXVol";
+		volume = PlayerPrefs.GetFloat(stringKey);
 
 		for (int i = 0; i < soundObjectList.Count; i++)
 		{
@@ -90,45 +90,45 @@ public class BaseSoundController : MonoBehaviour
 		}
 	}
 
-	public void PlaySoundByIndex(int anIndexNumber, Vector3 aPosition)
+	public void PlaySoundByIndex(int indexNumber, Vector3 position)
 	{
-		if (anIndexNumber > soundObjectList.Count)
+		if (indexNumber > soundObjectList.Count)
 		{
 			Debug.LogWarning(
 				"BaseSoundController>Trying to do PlaySoundByIndex with invalid index number. Playing last sound in array, instead.");
-			anIndexNumber = soundObjectList.Count - 1;
+			indexNumber = soundObjectList.Count - 1;
 		}
 
-		tempSoundObj = soundObjectList[anIndexNumber];
-		tempSoundObj.PlaySound(aPosition);
+		tempSoundObj = soundObjectList[indexNumber];
+		tempSoundObj.PlaySound(position);
 	}
 }
 
 public class SoundObject
 {
 	public AudioSource source;
-	public GameObject sourceGO;
-	public Transform sourceTR;
+	public GameObject sourceGameObject;
+	public Transform sourceTransform;
 
 	public AudioClip clip;
 	public string name;
 
-	public SoundObject(AudioClip aClip, string aName, float aVolume)
+	public SoundObject(AudioClip clip, string name, float volume)
 	{
-		sourceGO = new GameObject("AudioSource_" + aName);
-		sourceTR = sourceGO.transform;
-		source = sourceGO.AddComponent<AudioSource>();
-		source.name = "AudioSource_" + aName;
+		sourceGameObject = new GameObject("AudioSource_" + name);
+		sourceTransform = sourceGameObject.transform;
+		source = sourceGameObject.AddComponent<AudioSource>();
+		source.name = "AudioSource_" + name;
 		source.playOnAwake = false;
-		source.clip = aClip;
-		source.volume = aVolume;
-		clip = aClip;
-		name = aName;
+		source.clip = clip;
+		source.volume = volume;
+		this.clip = clip;
+		this.name = name;
 	}
 
 	public void PlaySound(Vector3 atPosition)
 	{
-		sourceTR.position = atPosition;
+		sourceTransform.position = atPosition;
 		source.PlayOneShot(clip);
 	}
 }

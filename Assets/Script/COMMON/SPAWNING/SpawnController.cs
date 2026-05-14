@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-[AddComponentMenu("Utility/Spawn Controller")]
+[AddComponentMenu("SOMStudio/Platformer2D/Spawn Controller")]
 public class SpawnController : ScriptableObject
 {
 	private ArrayList playerTransforms;
@@ -77,7 +77,7 @@ public class SpawnController : ScriptableObject
 		}
 	}
 
-	public GameObject GetPlayerGO(int indexNum)
+	public GameObject GetPlayerGameObject(int indexNum)
 	{
 		return (GameObject)playerGameObjects[indexNum];
 	}
@@ -95,9 +95,9 @@ public class SpawnController : ScriptableObject
 		return tempTrans;
 	}
 	
-	public GameObject SpawnGO(GameObject anObject, Vector3 aPosition, Quaternion aRotation)
+	public GameObject SpawnGameObject(GameObject anObject, Vector3 aPosition, Quaternion aRotation)
 	{
-		tempGO = (GameObject)Instantiate(anObject, aPosition, aRotation);
+		tempGO = Instantiate(anObject, aPosition, aRotation);
 		tempTrans = tempGO.transform;
 		
 		return tempGO;

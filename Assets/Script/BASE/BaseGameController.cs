@@ -1,10 +1,9 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-[AddComponentMenu("Base/GameController")]
 public class BaseGameController : MonoBehaviour
 {
-	bool paused;
+	private bool paused;
 
 	[SerializeField] protected GameObject explosionPrefab;
 	

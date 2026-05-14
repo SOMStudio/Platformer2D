@@ -9,30 +9,21 @@ public class ExtendedCustomMonoBehaviour : MonoBehaviour
 	protected int id;
 
 	protected Transform myTransform;
-	protected GameObject myGO;
+	protected GameObject myGameObject;
 	protected Rigidbody myBody;
 
 	private void Start()
 	{
 		Init();
 	}
-	
-	public virtual void Init()
+
+	protected virtual void Init()
 	{
-		if (!myTransform)
-		{
-			myTransform = transform;
-		}
+		myTransform = transform;
 
-		if (!myGO)
-		{
-			myGO = gameObject;
-		}
+		myGameObject = gameObject;
 
-		if (!myBody)
-		{
-			myBody = GetComponent<Rigidbody>();
-		}
+		myBody = GetComponent<Rigidbody>();
 
 		didInit = true;
 	}
