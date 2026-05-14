@@ -108,7 +108,7 @@ public class SpawnPlatformsManager : MonoBehaviour
 	public void SpawnFirst(Vector3 startPos)
 	{
 		Vector3 pos = new Vector3(startPos.x, startPos.y - verticalMax, 0);
-		GameObject go = SpawnController.Instance.SpawnGameObject(platformPref, pos, Quaternion.identity);
+		GameObject go = SpawnUtility.SpawnGameObject(platformPref, pos, Quaternion.identity);
 		go.transform.parent = transform;
 
 		lastPosition = pos;
@@ -130,7 +130,7 @@ public class SpawnPlatformsManager : MonoBehaviour
 	{
 		Vector3 pos = lastPosition + new Vector3(Random.Range(horizontalMin, horizontalMax),
 			Random.Range(verticalMin, verticalMax), 0);
-		GameObject go = SpawnController.Instance.SpawnGameObject(platformPref, pos, Quaternion.identity);
+		GameObject go = SpawnUtility.SpawnGameObject(platformPref, pos, Quaternion.identity);
 		go.transform.parent = transform;
 
 		lastPosition = pos;

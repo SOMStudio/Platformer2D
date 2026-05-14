@@ -6,7 +6,7 @@ public class SpawnCoinsManager : MonoBehaviour
 	[SerializeField] private Transform[] pointCoins;
 	[SerializeField] private GameObject coinPref;
 
-	private List<GameObject> listCoins = new List<GameObject>();
+	private readonly List<GameObject> coins = new List<GameObject>();
 	
 	private void Start()
 	{
@@ -21,16 +21,16 @@ public class SpawnCoinsManager : MonoBehaviour
 
 			if (coinShow > 0)
 			{
-				var coinCur = SpawnController.Instance.SpawnGameObject(coinPref, pointCoins[i].position, Quaternion.identity);
+				var coinCur = SpawnUtility.SpawnGameObject(coinPref, pointCoins[i].position, Quaternion.identity);
 				
-				listCoins.Add(coinCur);
+				coins.Add(coinCur);
 			}
 		}
 	}
 
 	public void Kill()
 	{
-		foreach (var item in listCoins)
+		foreach (var item in coins)
 		{
 			Destroy(item);
 		}

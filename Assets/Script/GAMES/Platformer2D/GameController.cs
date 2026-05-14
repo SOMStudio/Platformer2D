@@ -81,7 +81,7 @@ public class GameController : BaseGameController
 	{
 		InitManagers();
 
-		SpawnController.Instance.Restart();
+		SpawnUtility.Restart();
 
 		numberOfPlayers = playerPrefabList.Length;
 
@@ -94,12 +94,12 @@ public class GameController : BaseGameController
 			playerStartRotations[i] = startPoints[i].rotation;
 		}
 
-		SpawnController.Instance.SetUpPlayers(playerPrefabList, playerStartPositions, playerStartRotations, playerParent,
+		SpawnUtility.SetUpPlayers(playerPrefabList, playerStartPositions, playerStartRotations, playerParent,
 			numberOfPlayers);
 
 		playerTransforms = new ArrayList();
 
-		playerTransforms = SpawnController.Instance.GetAllSpawnedPlayers();
+		playerTransforms = SpawnUtility.GetAllSpawnedPlayers();
 
 		players = new ArrayList();
 
@@ -110,7 +110,7 @@ public class GameController : BaseGameController
 			players.Add(tempController);
 		}
 
-		playerGameObject = SpawnController.Instance.GetPlayerGameObject(0);
+		playerGameObject = SpawnUtility.GetPlayerGameObject(0);
 
 		thePlayerScript = playerGameObject.GetComponent<PlayerManager>();
 

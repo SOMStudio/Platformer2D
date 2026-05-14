@@ -8,8 +8,8 @@ public class PlatformFallManager : ExtendedCustomMonoBehaviour2D
 	[SerializeField] private SpawnCoinsManager coinSpawner;
 
 	private GameController gameController;
-	
-	void OnCollisionEnter2D(Collision2D other)
+
+	private void OnCollisionEnter2D(Collision2D other)
 	{
 		if (other.gameObject.CompareTag("Player"))
 		{
