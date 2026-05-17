@@ -1,35 +1,38 @@
 using UnityEngine;
 
-public class ExtendedCustomMonoBehaviour : MonoBehaviour
+namespace SOMStudio.Platformer2D.Scripts.Base
 {
-	[Header("Base")]
-	[SerializeField] protected bool didInit;
-	[SerializeField] protected bool canControl;
-
-	protected int id;
-
-	protected Transform myTransform;
-	protected GameObject myGameObject;
-	protected Rigidbody myBody;
-
-	private void Start()
+	public class ExtendedCustomMonoBehaviour : MonoBehaviour
 	{
-		Init();
-	}
+		[Header("Base")]
+		[SerializeField] protected bool didInit;
+		[SerializeField] protected bool canControl;
 
-	protected virtual void Init()
-	{
-		myTransform = transform;
+		protected int id;
 
-		myGameObject = gameObject;
+		protected Transform myTransform;
+		protected GameObject myGameObject;
+		protected Rigidbody myBody;
 
-		myBody = GetComponent<Rigidbody>();
+		private void Start()
+		{
+			Init();
+		}
 
-		didInit = true;
-	}
+		protected virtual void Init()
+		{
+			myTransform = transform;
 
-	public virtual void SetID(int newId)
-	{
-		id = newId;
+			myGameObject = gameObject;
+
+			myBody = GetComponent<Rigidbody>();
+
+			didInit = true;
+		}
+
+		public virtual void SetID(int newId)
+		{
+			id = newId;
+		}
 	}
 }

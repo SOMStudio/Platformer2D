@@ -1,60 +1,64 @@
+using SOMStudio.Platformer2D.Scripts.Game.UserInterface;
 using UnityEngine;
 
-[AddComponentMenu("SOMStudio/Platformer2D/Game Menu")]
-public class GameMenu : BaseUIDataManager
+namespace SOMStudio.Platformer2D.Scripts.Game
 {
-	[Header("Manu settings")]
-	[SerializeField] private GUIStyle myStyle;
-
-	[SerializeField] private GameObject gameOverMessage;
-	[SerializeField] private GameObject getReadyMessage;
-
-	[System.NonSerialized] public static GameMenu Instance;
-
-	private void Awake()
+	[AddComponentMenu("SOMStudio/Platformer2D/Game Menu")]
+	public class GameMenu : BaseUIDataManager
 	{
-		if (Instance == null)
-			Instance = this;
-		else
-			Destroy(this);
+		[Header("Manu settings")]
+		[SerializeField] private GUIStyle myStyle;
 
-		Init();
-	}
+		[SerializeField] private GameObject gameOverMessage;
+		[SerializeField] private GameObject getReadyMessage;
+
+		[System.NonSerialized] public static GameMenu Instance;
+
+		private void Awake()
+		{
+			if (Instance == null)
+				Instance = this;
+			else
+				Destroy(this);
+
+			Init();
+		}
 	
-	private void Init()
-	{
-		LoadHighScore();
+		private void Init()
+		{
+			LoadHighScore();
 
-		HideMessages();
+			HideMessages();
 
-		ShowGetReady();
-		Invoke(nameof(HideMessages), 5);
-	}
+			ShowGetReady();
+			Invoke(nameof(HideMessages), 5);
+		}
 
-	private void HideMessages()
-	{
-		gameOverMessage.SetActive(false);
-		getReadyMessage.SetActive(false);
-	}
+		private void HideMessages()
+		{
+			gameOverMessage.SetActive(false);
+			getReadyMessage.SetActive(false);
+		}
 
-	private void ShowGetReady()
-	{
-		getReadyMessage.SetActive(true);
-	}
+		private void ShowGetReady()
+		{
+			getReadyMessage.SetActive(true);
+		}
 
-	public void ShowGameOver()
-	{
-		SaveHighScore();
+		public void ShowGameOver()
+		{
+			SaveHighScore();
 		
-		gameOverMessage.SetActive(true);
-		Invoke(nameof(HideMessages), 3);
-	}
+			gameOverMessage.SetActive(true);
+			Invoke(nameof(HideMessages), 3);
+		}
 
-	private void OnGUI()
-	{
-		GUI.Label(new Rect(10, 10, 100, 50), "PLAYER: 1", myStyle);
-		GUI.Label(new Rect(10, 40, 100, 50), "SCORE: " + playerScore, myStyle);
-		GUI.Label(new Rect(10, 70, 200, 50), "HIGH SCORE: " + playerHighScore, myStyle);
+		private void OnGUI()
+		{
+			GUI.Label(new Rect(10, 10, 100, 50), "PLAYER: 1", myStyle);
+			GUI.Label(new Rect(10, 40, 100, 50), "SCORE: " + playerScore, myStyle);
+			GUI.Label(new Rect(10, 70, 200, 50), "HIGH SCORE: " + playerHighScore, myStyle);
+		}
 	}
 }
 

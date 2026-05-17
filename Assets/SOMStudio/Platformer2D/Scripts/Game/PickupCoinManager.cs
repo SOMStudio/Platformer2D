@@ -1,17 +1,21 @@
-﻿using UnityEngine;
+﻿using SOMStudio.Platformer2D.Scripts.Base;
+using UnityEngine;
 
-public class PickupCoinManager : MonoBehaviour
+namespace SOMStudio.Platformer2D.Scripts.Game
 {
-	private void OnTriggerEnter2D(Collider2D other)
+	public class PickupCoinManager : MonoBehaviour
 	{
-		if (other.gameObject.CompareTag("Player"))
+		private void OnTriggerEnter2D(Collider2D other)
 		{
-			string namePlayer = other.GetComponent<BaseUserManager>().GetName();
-			int codePlayer = namePlayer.GetHashCode();
+			if (other.gameObject.CompareTag("Player"))
+			{
+				string namePlayer = other.GetComponent<BaseUserManager>().GetName();
+				int codePlayer = namePlayer.GetHashCode();
 			
-			GameController.Instance.CoinsTake(this.transform.position, 10, codePlayer);
+				GameController.Instance.CoinsTake(this.transform.position, 10, codePlayer);
 			
-			Destroy(this.gameObject);
+				Destroy(this.gameObject);
+			}
 		}
 	}
 }

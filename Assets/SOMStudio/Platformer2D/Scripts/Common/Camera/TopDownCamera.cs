@@ -1,37 +1,41 @@
+using SOMStudio.Platformer2D.Scripts.Base;
 using UnityEngine;
 
-public class TopDownCamera : ExtendedCustomMonoBehaviour
+namespace SOMStudio.Platformer2D.Scripts.Common.Camera
 {
-	[SerializeField] private Transform followTarget;
-	[SerializeField] private Vector3 targetOffset;
-	[SerializeField] private float moveSpeed = 2f;
-	
-	private void Update()
+	public class TopDownCamera : ExtendedCustomMonoBehaviour
 	{
-		if (followTarget)
+		[SerializeField] private Transform followTarget;
+		[SerializeField] private Vector3 targetOffset;
+		[SerializeField] private float moveSpeed = 2f;
+	
+		private void Update()
 		{
-			if (moveSpeed == 0)
+			if (followTarget)
 			{
-				myTransform.position = followTarget.position + targetOffset;
-			}
-			else
-			{
-				if ((myTransform.position - (followTarget.position + targetOffset)).magnitude > 0.1f)
+				if (moveSpeed == 0)
 				{
-					myTransform.position = Vector3.Lerp(myTransform.position, followTarget.position + targetOffset,
-						moveSpeed * Time.deltaTime);
+					myTransform.position = followTarget.position + targetOffset;
+				}
+				else
+				{
+					if ((myTransform.position - (followTarget.position + targetOffset)).magnitude > 0.1f)
+					{
+						myTransform.position = Vector3.Lerp(myTransform.position, followTarget.position + targetOffset,
+							moveSpeed * Time.deltaTime);
+					}
 				}
 			}
 		}
-	}
 	
-	public void SetTarget(Transform setTransform)
-	{
-		followTarget = setTransform;
-	}
+		public void SetTarget(Transform setTransform)
+		{
+			followTarget = setTransform;
+		}
 
-	public void SetPosition(Vector3 position)
-	{
-		myTransform.position = position;
+		public void SetPosition(Vector3 position)
+		{
+			myTransform.position = position;
+		}
 	}
 }

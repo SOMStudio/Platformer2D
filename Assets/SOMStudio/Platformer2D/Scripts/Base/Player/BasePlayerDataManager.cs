@@ -1,44 +1,47 @@
 using UnityEngine;
 
-[AddComponentMenu("SOMStudio/Platformer2D/Player Data Manager")]
-public class BasePlayerDataManager : MonoBehaviour
+namespace SOMStudio.Platformer2D.Scripts.Base.Player
 {
-	[SerializeField] protected bool didInit;
-
-	[SerializeField] protected BaseUserManager userManager;
-
-	private void Awake()
+	[AddComponentMenu("SOMStudio/Platformer2D/Player Data Manager")]
+	public class BasePlayerDataManager : MonoBehaviour
 	{
-		Init();
-	}
+		[SerializeField] protected bool didInit;
 
-	protected virtual void Init()
-	{
-		if (!userManager)
+		[SerializeField] protected BaseUserManager userManager;
+
+		private void Awake()
 		{
-			userManager = gameObject.GetComponent<BaseUserManager>();
-
-			if (!userManager)
-				userManager = gameObject.AddComponent<BaseUserManager>();
+			Init();
 		}
 
-		userManager.GetDefaultData();
+		protected virtual void Init()
+		{
+			if (!userManager)
+			{
+				userManager = gameObject.GetComponent<BaseUserManager>();
 
-		didInit = true;
-	}
+				if (!userManager)
+					userManager = gameObject.AddComponent<BaseUserManager>();
+			}
 
-	public BaseUserManager GetUserManager()
-	{
-		return userManager;
-	}
+			userManager.GetDefaultData();
 
-	public virtual void GameFinished()
-	{
-		userManager.SetIsFinished(true);
-	}
+			didInit = true;
+		}
 
-	public virtual void GameStart()
-	{
-		userManager.SetIsFinished(false);
+		public BaseUserManager GetUserManager()
+		{
+			return userManager;
+		}
+
+		public virtual void GameFinished()
+		{
+			userManager.SetIsFinished(true);
+		}
+
+		public virtual void GameStart()
+		{
+			userManager.SetIsFinished(false);
+		}
 	}
 }

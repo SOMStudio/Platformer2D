@@ -1,38 +1,42 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using SOMStudio.Platformer2D.Scripts.Common.Utility;
+using UnityEngine;
 
-public class SpawnCoinsManager : MonoBehaviour
+namespace SOMStudio.Platformer2D.Scripts.Game
 {
-	[SerializeField] private Transform[] pointCoins;
-	[SerializeField] private GameObject coinPref;
+	public class SpawnCoinsManager : MonoBehaviour
+	{
+		[SerializeField] private Transform[] pointCoins;
+		[SerializeField] private GameObject coinPref;
 
-	private readonly List<GameObject> coins = new List<GameObject>();
+		private readonly List<GameObject> coins = new List<GameObject>();
 	
-	private void Start()
-	{
-		Spawn();
-	}
-
-	private void Spawn()
-	{
-		for (int i = 0; i < pointCoins.Length; i++)
+		private void Start()
 		{
-			int coinShow = Random.Range(0, 2);
+			Spawn();
+		}
 
-			if (coinShow > 0)
+		private void Spawn()
+		{
+			for (int i = 0; i < pointCoins.Length; i++)
 			{
-				var coinCur = SpawnUtility.SpawnGameObject(coinPref, pointCoins[i].position, Quaternion.identity);
+				int coinShow = Random.Range(0, 2);
+
+				if (coinShow > 0)
+				{
+					var coinCur = SpawnUtility.SpawnGameObject(coinPref, pointCoins[i].position, Quaternion.identity);
 				
-				coins.Add(coinCur);
+					coins.Add(coinCur);
+				}
 			}
 		}
-	}
 
-	public void Kill()
-	{
-		foreach (var item in coins)
+		public void Kill()
 		{
-			Destroy(item);
+			foreach (var item in coins)
+			{
+				Destroy(item);
+			}
 		}
 	}
 }

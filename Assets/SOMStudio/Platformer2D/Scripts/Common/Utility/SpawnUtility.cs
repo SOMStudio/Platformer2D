@@ -1,79 +1,82 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
-public static class SpawnUtility
+namespace SOMStudio.Platformer2D.Scripts.Common.Utility
 {
-	private static ArrayList PlayerTransforms;
-	private static ArrayList PlayerGameObjects;
-
-	private static GameObject[] PlayerPrefabList;
-	private static Vector3[] StartPositions;
-	private static Quaternion[] StartRotations;
-
-	public static void Restart()
+	public static class SpawnUtility
 	{
-		PlayerTransforms = new ArrayList();
-		PlayerGameObjects = new ArrayList();
-	}
+		private static ArrayList PlayerTransforms;
+		private static ArrayList PlayerGameObjects;
 
-	public static void SetUpPlayers(GameObject[] playerPrefabs, Vector3[] playerStartPositions,
-		Quaternion[] playerStartRotations, Transform theParentObj, int totalPlayers)
-	{
-		PlayerPrefabList = playerPrefabs;
-		StartPositions = playerStartPositions;
-		StartRotations = playerStartRotations;
-		
-		CreatePlayers(theParentObj, totalPlayers);
-	}
+		private static GameObject[] PlayerPrefabList;
+		private static Vector3[] StartPositions;
+		private static Quaternion[] StartRotations;
 
-	public static void CreatePlayers(Transform theParent, int totalPlayers)
-	{
-		PlayerTransforms = new ArrayList();
-		PlayerGameObjects = new ArrayList();
-
-		for (int i = 0; i < totalPlayers; i++)
+		public static void Restart()
 		{
-			Transform tempTransform = Spawn(PlayerPrefabList[i], StartPositions[i], StartRotations[i]);
-			
-			if (theParent != null)
-			{
-				tempTransform.parent = theParent;
-				tempTransform.localPosition = StartPositions[i];
-			}
-			
-			PlayerTransforms.Add(tempTransform);
-			
-			PlayerGameObjects.Add(tempTransform.gameObject);
+			PlayerTransforms = new ArrayList();
+			PlayerGameObjects = new ArrayList();
 		}
-	}
 
-	public static GameObject GetPlayerGameObject(int indexNum)
-	{
-		return (GameObject)PlayerGameObjects[indexNum];
-	}
-
-	public static Transform GetPlayerTransform(int indexNum)
-	{
-		return (Transform)PlayerTransforms[indexNum];
-	}
-
-	public static Transform Spawn(GameObject anObject, Vector3 aPosition, Quaternion aRotation)
-	{
-		GameObject tempGameObject = SpawnGameObject(anObject, aPosition, aRotation);
-		Transform tempTrans = tempGameObject.transform;
+		public static void SetUpPlayers(GameObject[] playerPrefabs, Vector3[] playerStartPositions,
+			Quaternion[] playerStartRotations, Transform theParentObj, int totalPlayers)
+		{
+			PlayerPrefabList = playerPrefabs;
+			StartPositions = playerStartPositions;
+			StartRotations = playerStartRotations;
 		
-		return tempTrans;
-	}
+			CreatePlayers(theParentObj, totalPlayers);
+		}
+
+		public static void CreatePlayers(Transform theParent, int totalPlayers)
+		{
+			PlayerTransforms = new ArrayList();
+			PlayerGameObjects = new ArrayList();
+
+			for (int i = 0; i < totalPlayers; i++)
+			{
+				Transform tempTransform = Spawn(PlayerPrefabList[i], StartPositions[i], StartRotations[i]);
+			
+				if (theParent != null)
+				{
+					tempTransform.parent = theParent;
+					tempTransform.localPosition = StartPositions[i];
+				}
+			
+				PlayerTransforms.Add(tempTransform);
+			
+				PlayerGameObjects.Add(tempTransform.gameObject);
+			}
+		}
+
+		public static GameObject GetPlayerGameObject(int indexNum)
+		{
+			return (GameObject)PlayerGameObjects[indexNum];
+		}
+
+		public static Transform GetPlayerTransform(int indexNum)
+		{
+			return (Transform)PlayerTransforms[indexNum];
+		}
+
+		public static Transform Spawn(GameObject anObject, Vector3 aPosition, Quaternion aRotation)
+		{
+			GameObject tempGameObject = SpawnGameObject(anObject, aPosition, aRotation);
+			Transform tempTrans = tempGameObject.transform;
+		
+			return tempTrans;
+		}
 	
-	public static GameObject SpawnGameObject(GameObject anObject, Vector3 aPosition, Quaternion aRotation)
-	{
-		GameObject tempGameObject = Object.Instantiate(anObject, aPosition, aRotation);
+		public static GameObject SpawnGameObject(GameObject anObject, Vector3 aPosition, Quaternion aRotation)
+		{
+			GameObject tempGameObject = Object.Instantiate(anObject, aPosition, aRotation);
 		
-		return tempGameObject;
-	}
+			return tempGameObject;
+		}
 
-	public static ArrayList GetAllSpawnedPlayers()
-	{
-		return PlayerTransforms;
+		public static ArrayList GetAllSpawnedPlayers()
+		{
+			return PlayerTransforms;
+		}
 	}
 }

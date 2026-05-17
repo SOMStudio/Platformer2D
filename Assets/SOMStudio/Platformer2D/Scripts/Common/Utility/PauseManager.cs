@@ -1,50 +1,52 @@
-﻿using UnityEngine;
-using UnityEngine.SceneManagement;
-#if UNITY_EDITOR
+﻿using SOMStudio.Platformer2D.Scripts.Base;
 using UnityEditor;
-#endif
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class PauseManager : MonoBehaviour
+namespace SOMStudio.Platformer2D.Scripts.Common.Utility
 {
-	[SerializeField] private GameObject pauseWindow;
-	[SerializeField] private BaseGameController gameController;
+	public class PauseManager : MonoBehaviour
+	{
+		[SerializeField] private GameObject pauseWindow;
+		[SerializeField] private BaseGameController gameController;
 	
-	private void Start()
-	{
-		pauseWindow.SetActive(false);
-	}
-
-	private void Update()
-	{
-		if (!gameController.Paused)
+		private void Start()
 		{
-			if (Input.GetButtonDown("Cancel"))
+			pauseWindow.SetActive(false);
+		}
+
+		private void Update()
+		{
+			if (!gameController.Paused)
 			{
-				Pause();
+				if (UnityEngine.Input.GetButtonDown("Cancel"))
+				{
+					Pause();
+				}
 			}
 		}
-	}
 
-	private void Pause()
-	{
-		pauseWindow.SetActive(!pauseWindow.activeSelf);
+		private void Pause()
+		{
+			pauseWindow.SetActive(!pauseWindow.activeSelf);
 
-		gameController.Paused = Mathf.Approximately(Time.timeScale, 1);
-	}
+			gameController.Paused = Mathf.Approximately(Time.timeScale, 1);
+		}
 
-	public void Quit()
-	{
+		public void Quit()
+		{
 #if UNITY_EDITOR
-		EditorApplication.isPlaying = false;
+			EditorApplication.isPlaying = false;
 #else
 		Application.Quit();
 #endif
-	}
+		}
 
-	public void MainMenuScene()
-	{
-		Pause();
+		public void MainMenuScene()
+		{
+			Pause();
 		
-		SceneManager.LoadScene("Menu");
+			SceneManager.LoadScene("Menu");
+		}
 	}
 }
