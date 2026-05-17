@@ -22,13 +22,13 @@ public class PlatformFallManager : ExtendedCustomMonoBehaviour2D
 			Invoke(nameof(Kill), killDelay);
 		}
 	}
-	
-	public override void Init()
+
+	protected override void Init()
 	{
 		base.Init();
 
 		if (!coinSpawner)
-			coinSpawner = myGO.GetComponent<SpawnCoinsManager>();
+			coinSpawner = myGameObject.GetComponent<SpawnCoinsManager>();
 
 		if (!gameController)
 			gameController = GameController.Instance;

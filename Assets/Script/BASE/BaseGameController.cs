@@ -23,12 +23,12 @@ public class BaseGameController : MonoBehaviour
 	{
 	}
 
-	public void Explode(Vector3 aPosition)
+	public void Explode(Vector3 position)
 	{
-		Instantiate(explosionPrefab, aPosition, Quaternion.identity);
+		Instantiate(explosionPrefab, position, Quaternion.identity);
 	}
 
-	public virtual void EnemyDestroyed(Vector3 aPosition, int pointsValue, int hitByID)
+	public virtual void EnemyDestroyed(Vector3 position, int pointsValue, int hitByID)
 	{
 	}
 

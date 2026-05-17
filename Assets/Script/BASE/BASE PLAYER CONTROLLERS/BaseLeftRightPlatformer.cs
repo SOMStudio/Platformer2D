@@ -17,8 +17,8 @@ public class BaseLeftRightPlatformer : ExtendedCustomMonoBehaviour2D
 	[Header("Technic references")]
 	[SerializeField] protected Transform groundPoint;
 
-	protected KeyboardInput defaultInput;
-	protected Animator myAnimator;
+	protected KeyboardInput input;
+	protected Animator animator;
 
 	private static readonly int Grounded = Animator.StringToHash("grounded");
 	private static readonly int RunSpeed = Animator.StringToHash("runSpeed");
@@ -33,20 +33,20 @@ public class BaseLeftRightPlatformer : ExtendedCustomMonoBehaviour2D
 		FixedUpdateCharacter();
 	}
 
-	public override void Init()
+	protected override void Init()
 	{
 		base.Init();
 
 		didInit = false;
 
-		if (!myAnimator)
+		if (!animator)
 		{
-			myAnimator = GetComponent<Animator>();
+			animator = GetComponent<Animator>();
 		}
 
-		if (!defaultInput)
+		if (!input)
 		{
-			defaultInput = myGO.AddComponent<KeyboardInput>();
+			input = myGameObject.AddComponent<KeyboardInput>();
 		}
 
 		didInit = true;
@@ -70,8 +70,8 @@ public class BaseLeftRightPlatformer : ExtendedCustomMonoBehaviour2D
 
 	protected virtual void GetInput()
 	{
-		horizontalInput = defaultInput.GetHorizontal();
-		defaultInput.GetVertical();
+		horizontalInput = input.GetHorizontal();
+		input.GetVertical();
 
 		if (Input.GetButtonDown("Jump") && grounded && !clickJump)
 		{
@@ -89,12 +89,12 @@ public class BaseLeftRightPlatformer : ExtendedCustomMonoBehaviour2D
 
 		grounded = Physics2D.Linecast(transform.position, groundPoint.position, 1 << LayerMask.NameToLayer("Ground"));
 
-		myAnimator.SetBool(Grounded, grounded);
-		myAnimator.SetFloat(RunSpeed, Mathf.Abs(horizontalInput));
+		animator.SetBool(Grounded, grounded);
+		animator.SetFloat(RunSpeed, Mathf.Abs(horizontalInput));
 
-		if (defaultInput.Right && !facingRight)
+		if (input.Right && !facingRight)
 			Flip();
-		else if (defaultInput.Left && facingRight)
+		else if (input.Left && facingRight)
 			Flip();
 
 		myBody.velocity = new Vector2(horizontalInput * moveXSpeed, myBody.velocity.y);

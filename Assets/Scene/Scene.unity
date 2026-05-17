@@ -1199,7 +1199,7 @@ MonoBehaviour:
   playerParent: {fileID: 1283696632}
   startPoints:
   - {fileID: 837235224}
-  spawnManager: {fileID: 1283696633}
+  spawnPlatformsManager: {fileID: 1283696633}
   levelManager: {fileID: 0}
   menuManager: {fileID: 128193203}
   soundManager: {fileID: 0}

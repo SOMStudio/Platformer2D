@@ -1,17 +1,13 @@
 using UnityEngine;
-using System.Collections;
 
 [AddComponentMenu("SOMStudio/Platformer2D/Game Controller")]
 public class GameController : BaseGameController
 {
 	[Header("Main Settings")]
 	[SerializeField] private bool startGame;
-
 	[SerializeField] private string mainMenuSceneName = "Menu";
 	[SerializeField] private GameObject[] playerPrefabList;
-
 	[SerializeField] private SpawnPlatformsManager spawnController;
-
 	[SerializeField] private Transform playerParent;
 	[SerializeField] private Transform[] startPoints;
 
@@ -19,10 +15,6 @@ public class GameController : BaseGameController
 
 	private Vector3[] playerStarts;
 	private Quaternion[] playerRotations;
-
-	private ArrayList players;
-	private ArrayList playerTransforms;
-
 	private PlayerManager thePlayerScript;
 
 	[System.NonSerialized] public BaseUserManager mainPlayerDataManager1;
@@ -30,14 +22,12 @@ public class GameController : BaseGameController
 	private int numberOfPlayers;
 
 	[Header("Managers")]
-	[SerializeField] private SpawnPlatformsManager spawnManager;
+	[SerializeField] private SpawnPlatformsManager spawnPlatformsManager;
 	[SerializeField] private LevelManager levelManager;
 	[SerializeField] private GameMenu menuManager;
 	[SerializeField] private BaseSoundController soundManager;
 
 	[System.NonSerialized] public static GameController Instance;
-
-	[SerializeField] private float gameSpeed = 1;
 
 	private void Awake()
 	{
@@ -59,10 +49,10 @@ public class GameController : BaseGameController
 			if (playerGameObject)
 			{
 				Vector3 playerPos = playerGameObject.transform.position;
-				Vector3 firstPlatformPos = spawnManager.GetFirstPlatformPosition();
+				Vector3 firstPlatformPos = spawnPlatformsManager.GetFirstPlatformPosition();
 				if (
 					playerPos.y < firstPlatformPos.y
-					&& (playerPos - firstPlatformPos).magnitude > spawnManager.HorizontalMax * 2
+					&& (playerPos - firstPlatformPos).magnitude > spawnPlatformsManager.HorizontalMax * 2
 				)
 				{
 					thePlayerScript.GameEnd();
@@ -97,29 +87,12 @@ public class GameController : BaseGameController
 		SpawnUtility.SetUpPlayers(playerPrefabList, playerStartPositions, playerStartRotations, playerParent,
 			numberOfPlayers);
 
-		playerTransforms = new ArrayList();
-
-		playerTransforms = SpawnUtility.GetAllSpawnedPlayers();
-
-		players = new ArrayList();
-
-		for (int i = 0; i < numberOfPlayers; i++)
-		{
-			Transform tempT = (Transform)playerTransforms[i];
-			PlayerManager tempController = tempT.GetComponent<PlayerManager>();
-			players.Add(tempController);
-		}
-
 		playerGameObject = SpawnUtility.GetPlayerGameObject(0);
-
 		thePlayerScript = playerGameObject.GetComponent<PlayerManager>();
-
 		thePlayerScript.SetID(0);
-
 		thePlayerScript.SetUserInput(true);
 
 		Transform aTarget = playerGameObject.transform.Find("CamTarget");
-
 		if (aTarget != null)
 		{
 			Camera.main.SendMessage("SetTarget", aTarget);
@@ -129,15 +102,15 @@ public class GameController : BaseGameController
 			Camera.main.SendMessage("SetTarget", playerGameObject.transform);
 		}
 
-		mainPlayerDataManager1 = playerGameObject.GetComponent<BasePlayerManager>().GetDataManager();
+		mainPlayerDataManager1 = playerGameObject.GetComponent<BasePlayerDataManager>().GetUserManager();
 
 		Invoke(nameof(StartLevelFirst), 2);
 	}
 
 	private void InitManagers()
 	{
-		if (!spawnManager)
-			spawnManager = SpawnPlatformsManager.Instance;
+		if (!spawnPlatformsManager)
+			spawnPlatformsManager = SpawnPlatformsManager.Instance;
 
 		if (!levelManager)
 			levelManager = LevelManager.Instance;
@@ -182,7 +155,7 @@ public class GameController : BaseGameController
 
 	public void PlatformDrop(GameObject val)
 	{
-		spawnManager.RemovePlatform(val);
+		spawnPlatformsManager.RemovePlatform(val);
 	}
 
 	public void CoinsTake(Vector3 aPosition, int pointsValue, int takeByID)

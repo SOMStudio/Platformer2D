@@ -6,7 +6,7 @@ using UnityEditor;
 [AddComponentMenu("SOMStudio/Platformer2D/Main Menu Controller")]
 public class MainMenuController : MonoBehaviour
 {
-	[SerializeField] private int whichMenu;
+	[SerializeField] private int activeMenu;
 
 	[Header("Game Settings")]
 	[SerializeField] private GUISkin menuSkin;
@@ -97,7 +97,7 @@ public class MainMenuController : MonoBehaviour
 		
 		GUI.skin = menuSkin;
 
-		switch (whichMenu)
+		switch (activeMenu)
 		{
 			case 0:
 				GUI.BeginGroup(new Rect(defaultWidth / 2 - 150, defaultHeight / 2 - 250, 500, 500));
@@ -279,22 +279,22 @@ public class MainMenuController : MonoBehaviour
 
 	private void GoMainMenu()
 	{
-		whichMenu = 0;
+		activeMenu = 0;
 	}
 
 	private void ShowOptionsMenu()
 	{
-		whichMenu = 1;
+		activeMenu = 1;
 	}
 
 	private void ShowAudioOptionsMenu()
 	{
-		whichMenu = 3;
+		activeMenu = 3;
 	}
 
 	private void ShowGraphicsOptionsMenu()
 	{
-		whichMenu = 4;
+		activeMenu = 4;
 	}
 
 	private void SaveOptionsPrefs()
@@ -308,7 +308,7 @@ public class MainMenuController : MonoBehaviour
 
 	private void ConfirmExitGame()
 	{
-		whichMenu = 2;
+		activeMenu = 2;
 	}
 
 	static void ExitGame()

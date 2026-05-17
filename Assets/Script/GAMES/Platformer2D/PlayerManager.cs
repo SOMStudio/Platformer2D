@@ -5,10 +5,10 @@ public class PlayerManager : BaseLeftRightPlatformer
 {
 	[SerializeField] private Transform cameraOffsetPoint;
 	[SerializeField] private Vector2 cameraOffsetValue;
-	private float myVelocityYNorm;
+	private float velocityNormalized;
 
-	[SerializeField] private BasePlayerManager myPlayerManager;
-	[SerializeField] private BaseUserManager myDataManager;
+	[SerializeField] private BasePlayerDataManager playerDataManager;
+	[SerializeField] private BaseUserManager userManager;
 
 	private bool isInvulnerable;
 	private bool isRespawning;
@@ -17,7 +17,7 @@ public class PlayerManager : BaseLeftRightPlatformer
 
 	[SerializeField] private bool isFinished;
 
-	public override void Init()
+	protected override void Init()
 	{
 		base.Init();
 
@@ -32,16 +32,16 @@ public class PlayerManager : BaseLeftRightPlatformer
 
 		canControl = false;
 
-		if (myPlayerManager == null)
-			myPlayerManager = myGO.GetComponent<BasePlayerManager>();
+		if (playerDataManager == null)
+			playerDataManager = myGameObject.GetComponent<BasePlayerDataManager>();
 
-		myDataManager = myPlayerManager.GetDataManager();
-		myDataManager.SetName("Player1");
-		myDataManager.SetHealth(3);
+		userManager = playerDataManager.GetUserManager();
+		userManager.SetName("Player1");
+		userManager.SetHealth(3);
 
 		isFinished = false;
 
-		GameController.Instance.UpdateLivesP1(myDataManager.GetHealth());
+		GameController.Instance.UpdateLivesP1(userManager.GetHealth());
 	}
 
 	protected override void UpdateCharacter()
@@ -56,9 +56,9 @@ public class PlayerManager : BaseLeftRightPlatformer
 
 		if (cameraOffsetPoint)
 		{
-			myVelocityYNorm = Mathf.Lerp(myVelocityYNorm, Mathf.Clamp(myBody.velocity.y, -1.0f, 1.0f), Time.deltaTime);
+			velocityNormalized = Mathf.Lerp(velocityNormalized, Mathf.Clamp(myBody.velocity.y, -1.0f, 1.0f), Time.deltaTime);
 			cameraOffsetPoint.localPosition = new Vector3(cameraOffsetValue.x * Mathf.Abs(horizontalInput),
-				cameraOffsetValue.y * myVelocityYNorm, 0);
+				cameraOffsetValue.y * velocityNormalized, 0);
 		}
 	}
 
@@ -78,29 +78,29 @@ public class PlayerManager : BaseLeftRightPlatformer
 		canControl = false;
 	}
 
-	void LostLife()
+	private void LostLife()
 	{
 		isRespawning = true;
 
 		GameController.Instance.PlayerHit(myTransform);
 
-		myDataManager.ReduceHealth(1);
+		userManager.ReduceHealth(1);
 
-		GameController.Instance.UpdateLivesP1(myDataManager.GetHealth());
+		GameController.Instance.UpdateLivesP1(userManager.GetHealth());
 
-		if (myDataManager.GetHealth() < 1)
+		if (userManager.GetHealth() < 1)
 		{
 			Rigidbody rb = GetComponent<Rigidbody>();
 			if (!rb.isKinematic)
 				rb.velocity = Vector3.zero;
 
-			myGO.SetActive(false);
+			myGameObject.SetActive(false);
 
 			PlayerFinished();
 		}
 		else
 		{
-			myGO.SetActive(false);
+			myGameObject.SetActive(false);
 
 			Invoke(nameof(Respawn), 2f);
 		}
@@ -114,7 +114,7 @@ public class PlayerManager : BaseLeftRightPlatformer
 
 		Invoke(nameof(MakeVulnerable), 3);
 
-		myGO.SetActive(true);
+		myGameObject.SetActive(true);
 	}
 
 	private void OnCollisionEnter(Collision otherCollider)
@@ -130,12 +130,12 @@ public class PlayerManager : BaseLeftRightPlatformer
 		canControl = setInput;
 	}
 
-	void MakeInvulnerable()
+	private void MakeInvulnerable()
 	{
 		isInvulnerable = true;
 	}
 
-	void MakeVulnerable()
+	private void MakeVulnerable()
 	{
 		isInvulnerable = false;
 	}

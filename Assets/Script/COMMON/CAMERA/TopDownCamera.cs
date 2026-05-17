@@ -25,13 +25,13 @@ public class TopDownCamera : ExtendedCustomMonoBehaviour
 		}
 	}
 	
-	public void SetTarget(Transform aTransform)
+	public void SetTarget(Transform setTransform)
 	{
-		followTarget = aTransform;
+		followTarget = setTransform;
 	}
 
-	public void SetPosition(Vector3 val)
+	public void SetPosition(Vector3 position)
 	{
-		myTransform.position = val;
+		myTransform.position = position;
 	}
 }

@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 public class LevelManager : MonoBehaviour
 {
 	[SerializeField] private string[] levelNames;
-	[SerializeField] private int gameLevelNum;
+	[SerializeField] private int gameLevelNumber;
 
 	[System.NonSerialized] public static LevelManager Instance;
 	
@@ -34,17 +34,17 @@ public class LevelManager : MonoBehaviour
 
 	public void ResetGame()
 	{
-		gameLevelNum = 0;
+		gameLevelNumber = 0;
 	}
 
 	public void GoNextLevel()
 	{
-		if (gameLevelNum >= levelNames.Length)
-			gameLevelNum = 0;
+		if (gameLevelNumber >= levelNames.Length)
+			gameLevelNumber = 0;
 		
-		LoadLevel(gameLevelNum);
+		LoadLevel(gameLevelNumber);
 		
-		gameLevelNum++;
+		gameLevelNumber++;
 	}
 
 	private void LoadLevel(int indexNum)

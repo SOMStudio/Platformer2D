@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-[AddComponentMenu("SOMStudio/Platformer2D/Spawn Platforms Controller")]
+[AddComponentMenu("SOMStudio/Platformer2D/Spawn Platforms Manager")]
 public class SpawnPlatformsManager : MonoBehaviour
 {
 	[SerializeField] private int maxPlatforms = 3;
@@ -107,13 +107,13 @@ public class SpawnPlatformsManager : MonoBehaviour
 
 	public void SpawnFirst(Vector3 startPos)
 	{
-		Vector3 pos = new Vector3(startPos.x, startPos.y - verticalMax, 0);
-		GameObject go = SpawnUtility.SpawnGameObject(platformPref, pos, Quaternion.identity);
-		go.transform.parent = transform;
+		Vector3 position = new Vector3(startPos.x, startPos.y - verticalMax, 0);
+		GameObject spawnGameObject = SpawnUtility.SpawnGameObject(platformPref, position, Quaternion.identity);
+		spawnGameObject.transform.parent = transform;
 
-		lastPosition = pos;
+		lastPosition = position;
 
-		listPlatforms.Add(go);
+		listPlatforms.Add(spawnGameObject);
 
 		SpawnGrope();
 	}
@@ -128,13 +128,13 @@ public class SpawnPlatformsManager : MonoBehaviour
 
 	private void SpawnNext()
 	{
-		Vector3 pos = lastPosition + new Vector3(Random.Range(horizontalMin, horizontalMax),
+		Vector3 position = lastPosition + new Vector3(Random.Range(horizontalMin, horizontalMax),
 			Random.Range(verticalMin, verticalMax), 0);
-		GameObject go = SpawnUtility.SpawnGameObject(platformPref, pos, Quaternion.identity);
-		go.transform.parent = transform;
+		GameObject spawnGameObject = SpawnUtility.SpawnGameObject(platformPref, position, Quaternion.identity);
+		spawnGameObject.transform.parent = transform;
 
-		lastPosition = pos;
+		lastPosition = position;
 
-		listPlatforms.Add(go);
+		listPlatforms.Add(spawnGameObject);
 	}
 }

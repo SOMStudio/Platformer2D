@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class BaseMusicController : MonoBehaviour
 {
-	[SerializeField] protected List<MusicObject> musicList;
+	[SerializeField] protected List<MusicObject> musics;
 
 	[System.NonSerialized] public static BaseMusicController Instance;
 	
@@ -31,7 +31,7 @@ public class BaseMusicController : MonoBehaviour
 
 	public void UpdateVolume()
 	{
-		foreach (MusicObject item in musicList)
+		foreach (MusicObject item in musics)
 		{
 			item.UpdateVolume();
 		}
@@ -39,7 +39,7 @@ public class BaseMusicController : MonoBehaviour
 
 	public void StopMusic(int number)
 	{
-		MusicObject temp = musicList[number];
+		MusicObject temp = musics[number];
 
 		if (temp)
 		{
@@ -50,7 +50,7 @@ public class BaseMusicController : MonoBehaviour
 
 	public void StopMusicButPlayToEnd(int number)
 	{
-		MusicObject temp = musicList[number];
+		MusicObject temp = musics[number];
 
 		if (temp)
 		{
@@ -60,7 +60,7 @@ public class BaseMusicController : MonoBehaviour
 
 	public void PlayMusic(int number)
 	{
-		MusicObject temp = musicList[number];
+		MusicObject temp = musics[number];
 
 		if (temp)
 		{
@@ -71,7 +71,7 @@ public class BaseMusicController : MonoBehaviour
 
 	public void PlayRememberMusic()
 	{
-		MusicObject temp = musicList[0];
+		MusicObject temp = musics[0];
 
 		if (temp.IsPlaying() == true)
 		{
@@ -83,7 +83,7 @@ public class BaseMusicController : MonoBehaviour
 
 	public void PlayLevelMusic()
 	{
-		MusicObject temp = musicList[1];
+		MusicObject temp = musics[1];
 
 		if (temp.IsPlaying() == true)
 		{

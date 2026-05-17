@@ -10,7 +10,7 @@ public class BaseSoundController : MonoBehaviour
 
 	private int totalSounds;
 	private List<SoundObject> soundObjectList;
-	private SoundObject tempSoundObj;
+	private SoundObject tempSoundObject;
 
 	[SerializeField] [Range(0, 1)] private float volume = 1;
 
@@ -59,10 +59,10 @@ public class BaseSoundController : MonoBehaviour
 		
 		foreach (AudioClip theSound in gameSounds)
 		{
-			tempSoundObj = new SoundObject(theSound, theSound.name, volume);
-			soundObjectList.Add(tempSoundObj);
+			tempSoundObject = new SoundObject(theSound, theSound.name, volume);
+			soundObjectList.Add(tempSoundObject);
 			
-			DontDestroyOnLoad(tempSoundObj.sourceGameObject);
+			DontDestroyOnLoad(tempSoundObject.sourceGameObject);
 
 			totalSounds++;
 		}
@@ -85,8 +85,8 @@ public class BaseSoundController : MonoBehaviour
 
 		for (int i = 0; i < soundObjectList.Count; i++)
 		{
-			tempSoundObj = soundObjectList[i];
-			tempSoundObj.source.volume = volume;
+			tempSoundObject = soundObjectList[i];
+			tempSoundObject.source.volume = volume;
 		}
 	}
 
@@ -99,8 +99,8 @@ public class BaseSoundController : MonoBehaviour
 			indexNumber = soundObjectList.Count - 1;
 		}
 
-		tempSoundObj = soundObjectList[indexNumber];
-		tempSoundObj.PlaySound(position);
+		tempSoundObject = soundObjectList[indexNumber];
+		tempSoundObject.PlaySound(position);
 	}
 }
 

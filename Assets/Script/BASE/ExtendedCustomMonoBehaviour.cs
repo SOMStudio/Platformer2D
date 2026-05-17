@@ -28,8 +28,8 @@ public class ExtendedCustomMonoBehaviour : MonoBehaviour
 		didInit = true;
 	}
 
-	public virtual void SetID(int anID)
+	public virtual void SetID(int newId)
 	{
-		id = anID;
+		id = newId;
 	}
 }

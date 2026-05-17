@@ -2,43 +2,33 @@ using UnityEngine;
 
 public class ExtendedCustomMonoBehaviour2D : MonoBehaviour
 {
-	[Header("Base")] 
-	[SerializeField] protected bool didInit;
+	[Header("Base")] [SerializeField] protected bool didInit;
 	[SerializeField] protected bool canControl;
 
 	protected int id;
 
 	protected Transform myTransform;
-	protected GameObject myGO;
+	protected GameObject myGameObject;
 	protected Rigidbody2D myBody;
 
 	private void Start()
 	{
 		Init();
 	}
-	
-	public virtual void Init()
+
+	protected virtual void Init()
 	{
-		if (!myTransform)
-		{
-			myTransform = transform;
-		}
+		myTransform = transform;
 
-		if (!myGO)
-		{
-			myGO = gameObject;
-		}
+		myGameObject = gameObject;
 
-		if (!myBody)
-		{
-			myBody = GetComponent<Rigidbody2D>();
-		}
+		myBody = GetComponent<Rigidbody2D>();
 
 		didInit = true;
 	}
 
-	public virtual void SetID(int anID)
+	public virtual void SetID(int newId)
 	{
-		id = anID;
+		id = newId;
 	}
 }

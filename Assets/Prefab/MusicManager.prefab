@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dce4c902bea0f604ab7c7c3e602f891e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musicList:
+  musics:
   - {fileID: 114545379978255512}
 --- !u!114 &114545379978255512
 MonoBehaviour:
