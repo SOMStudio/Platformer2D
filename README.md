@@ -1,29 +1,28 @@
-# Platformer2D (simple platformer 2D)
+# Platformer2D
 
-## Task:
-1) It is necessary to implement 2D game (style: platformer) using primitive 2D or 3D objects. Must be a player
- that can be controlled with the keys: a, d - movement back, forward, space - jump. There should be a platform
- on which the player must jump, which should be placed randomly at certain distances, but that the player could
- pass the level.
-2) Realize the selection of bonuses placed on platforms (also simple objects), while selecting add +10 bonuses.
-3) It is necessary to store a record number of bonuses collected at the finished level.
-4) On the player screen, show the bonuses received at the current level and the highest record of the bonuses
- received at previous levels (saved data).
-5) Game need to have two scenes: Menu, Basic.
+2D Platformer of medium complexity with 3D elements
 
-Additional tasks:
-1) Add something interesting in the game, if desired.
-2) Realize the sounds in the game.
-3) Realize music in the game.
+## Tasks:
+1) It is necessary to implement a 2D game (style: platformer) using primitive 2D or 3D objects.
+2) There must be a player who can be controlled using the keys: a, d - move back, forward, space - jump.
+3) There must be platforms on which the player must jump, which must be placed randomly at certain distances, but so that the player can pass the level.
+2) Localize the collection of bonuses placed on platforms (also simple objects), while adding +10 bonuses.
+3) It is necessary to keep a record of the number of bonuses collected on the completed level.
+4) Display the bonuses received at the current level and the highest record of bonuses received at previous levels (saved data) on the player's screen.
+5) The game should have two scenes: Menu, Level.
 
+Additionally:
+1) An example of using 2D animation of the player and coins.
+2) Implemented sounds in the game.
+2) Implemented music in the game.
+3) Falling platforms a second after the player touches them.
+4) Expanded the game controller with buttons to change the timeline in the game (using Unity editor scripts).
+5) Programmatically created the user interface in the scene Menu.
+6) A hybrid user interface was created in the Level scene using a programmatic method and a standard visual user interface.
+7) Example of using the Skin GUI.
 
 ## Implemented:
 All
-
-Additional:
-1) falling platforms after one second how the player touched her
-2) sounds of picking up bonuses
-3) music in the game
 
 ## Unity 2022
 
