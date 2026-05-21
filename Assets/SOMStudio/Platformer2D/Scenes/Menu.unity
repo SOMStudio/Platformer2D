@@ -255,8 +255,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelNames:
   - Menu
-  - Scene
-  gameLevelNum: 0
+  - Level
+  gameLevelNumber: 0
 --- !u!4 &323477406
 Transform:
   m_ObjectHideFlags: 0
@@ -415,8 +415,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93dd987d8987e244ea73401bc1464017, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  whichMenu: 0
-  menuSkin: {fileID: 0}
+  activeMenu: 0
+  menuSkin: {fileID: 11400000, guid: 6cfe2037e00bef241b5e35bd8ad29ac2, type: 2}
   gameDisplayName: Cooll Platformer
   gamePrefsName: Plt2D
   defaultWidth: 720

@@ -302,7 +302,7 @@ GameObject:
   m_Component:
   - component: {fileID: 400004}
   m_Layer: 0
-  m_Name: groundedPoint
+  m_Name: GroundedPoint
   m_TagString: Untagged
   m_Icon: {fileID: -3114416830163030229, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
