@@ -424,7 +424,7 @@ MonoBehaviour:
   audioSfxSliderValue: 0.5
   audioMusicSliderValue: 0.1
   graphicsSliderValue: 3
-  singleGameStartScene: Scene
+  singleGameStartScene: Level
   coopGameStartScene: 
   useLevelManagerToStartGame: 0
   gameLevels: []
