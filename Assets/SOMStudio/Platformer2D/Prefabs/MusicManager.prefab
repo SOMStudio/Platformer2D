@@ -61,7 +61,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gamePrefsName: Plt2D
   volume: 0.1
-  music: {fileID: 8300000, guid: 231ec041b01c92149b16e0f37d241c2d, type: 3}
+  music: {fileID: 8300000, guid: ce556f946104c3446bd0c610152986e5, type: 3}
   loopMusic: 1
   fadeTime: 15
   shouldFadeInAtStart: 0
