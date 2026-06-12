@@ -11,7 +11,7 @@
 4) Display the bonuses received at the current level and the highest record of bonuses received at previous levels (saved data) on the player's screen.
 5) The game should have two scenes: Menu, Level.
 
-Additionally:
+## Additionally:
 1) An example of using 2D animation of the player and coins.
 2) Implemented sounds in the game.
 2) Implemented music in the game.
